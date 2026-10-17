@@ -1,0 +1,6 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Placeholder logo for the example store. Replace with your own. -->
+  <rect width="64" height="64" rx="16" fill="#1A1A1F"/>
+  <path d="M15 37C24 46 41 45 49 30C50 28 48 26 46 28C38 37 26 38 18 33C16 32 13 35 15 37Z" fill="#FFCA28"/>
+  <path d="M46 28C47 26 49 25 50 23" stroke="#FFCA28" stroke-width="3" stroke-linecap="round"/>
+</svg>
