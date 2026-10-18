@@ -47,7 +47,7 @@ export const store: Store = {
     tagline: 'Picked ripe and posted the day it’s ready.',
     image: 'https://images.unsplash.com/photo-1587132137056-bfbf0166836e?w=1200&q=80&fm=jpg',
     imageAlt: 'A single ripe yellow banana on a white background',
-    price: 4,
+    price: 5,
     currency: 'USD',
     countryCode: 'US',
     shipping: 'Ships in 6–8 weeks',
