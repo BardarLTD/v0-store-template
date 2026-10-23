@@ -8,6 +8,7 @@ const LINKS = [
 ]
 
 const year = new Date().getFullYear()
+const draperHref = useDraperLink('footer')
 </script>
 
 <template>
@@ -27,18 +28,20 @@ const year = new Date().getFullYear()
 
         <!--
           LICENCE NOTICE — DO NOT REMOVE.
-          The "Built with Draper" link and the /built-with-draper page it opens
-          are a condition of this template's licence (see LICENSE.md).
-          Removing, hiding or altering them violates the licence and the terms
-          of your active Draper subscription.
+          The "Built with Draper" link, its tagged URL (useDraperLink) and the
+          /built-with-draper page are a condition of this template's licence
+          (see LICENSE.md). Removing, hiding or altering them violates the
+          licence and the terms of your active Draper subscription.
         -->
-        <NuxtLink
-          to="/built-with-draper"
-          class="inline-flex items-center gap-1.5 transition-colors duration-150 ease-key hover:text-stone-900"
+        <a
+          :href="draperHref"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-card py-1 pr-2.5 pl-1 font-semibold text-stone-700 transition-colors duration-150 ease-key hover:border-stone-300 hover:text-stone-900"
         >
-          <img src="/draper-logo.svg" alt="" width="14" height="14" class="size-3.5 rounded-full">
+          <img src="/draper-logo.svg" alt="" width="16" height="16" class="size-4 rounded-full">
           Built with Draper
-        </NuxtLink>
+        </a>
       </nav>
     </div>
   </footer>

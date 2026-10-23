@@ -10,7 +10,14 @@ const id = typeof ids[0] === 'string' ? ids[0] : ''
 
 const { data, error } = await useFetch(`/api/preorder/${id}`, { immediate: id.startsWith('int_') })
 
-useSeoMeta({ title: `Thank you · ${store.company.name}` })
+// The ad pixels' Purchase: only once Airwallex has confirmed the payment.
+const tracking = useTracking()
+onMounted(() => {
+  if (data.value?.paid) tracking.purchase({ id, amount: data.value.amount, currency: data.value.currency })
+})
+
+// Only buyers land here: keep it out of search results.
+useSeoMeta({ title: `Thank you · ${store.company.name}`, robots: 'noindex' })
 </script>
 
 <template>
