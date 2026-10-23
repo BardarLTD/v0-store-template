@@ -4,7 +4,11 @@ import { store } from '#shared/store'
 useSeoMeta({ title: `Privacy Policy · ${store.company.name}` })
 </script>
 
-<!-- Placeholder copy. Replace it with your own Privacy Policy before you take preorders. -->
+<!--
+  Placeholder copy. Replace it with your own Privacy Policy before you take preorders.
+  If you turn on the Meta Pixel or Google tag (see README), say so here: that the site
+  shares visits and purchases with Meta and Google for advertising.
+-->
 <template>
   <ContentPage title="Privacy Policy" lead="Last updated: [date]">
     <p>

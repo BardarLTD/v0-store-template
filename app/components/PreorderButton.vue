@@ -16,13 +16,21 @@ interface Preorder {
 }
 
 const { public: { airwallexEnv } } = useRuntimeConfig()
+const tracking = useTracking()
 
 const pending = ref(false)
 const error = ref('')
 
+/** The site's accent as a hex colour, which is all Airwallex accepts. */
+function accentColour(): string {
+  const value = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim()
+  return /^#[0-9a-f]{6}$/i.test(value) ? value : '#42A5F5'
+}
+
 async function preorder() {
   pending.value = true
   error.value = ''
+  tracking.beginCheckout()
   try {
     const order = await $fetch<Preorder>('/api/preorder', { method: 'POST' })
     const { init } = await import('@airwallex/components-sdk')
@@ -40,7 +48,8 @@ async function preorder() {
       successUrl: `${origin}/thank-you?id=${order.intentId}`,
       logoUrl: order.logoUrl,
       requiredBillingContactFields: ['name', 'email', 'address'],
-      appearance: { variables: { colorBrand: '#42A5F5' } },
+      // The checkout's buttons match the site's accent (app/assets/css/main.css).
+      appearance: { variables: { colorBrand: accentColour() } },
     })
   }
   catch (err) {

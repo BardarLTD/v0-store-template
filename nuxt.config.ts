@@ -18,7 +18,6 @@ export default defineNuxtConfig({
     head: {
       htmlAttrs: { lang: 'en' },
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap' },
@@ -34,6 +33,13 @@ export default defineNuxtConfig({
    *   NUXT_PUBLIC_SITE_URL — the site's public HTTPS origin; Airwallex's
    *     checkout loads the logo and product image from it (defaults to the
    *     request's origin)
+   *
+   * Ad pixels, each optional (see .env.example and app/plugins/tracking.ts):
+   *   NUXT_PUBLIC_META_PIXEL_ID — the Meta Pixel (dataset) ID, digits only
+   *   NUXT_PUBLIC_GOOGLE_TAG_ID — a Google tag ID (G-…, AW-… or GT-…);
+   *     several comma-separated
+   *   NUXT_PUBLIC_GOOGLE_ADS_CONVERSION — the Google Ads purchase
+   *     conversion's "send to", AW-…/…
    */
   runtimeConfig: {
     airwallexClientId: '',
@@ -41,6 +47,9 @@ export default defineNuxtConfig({
     public: {
       airwallexEnv: 'demo',
       siteUrl: '',
+      metaPixelId: '',
+      googleTagId: '',
+      googleAdsConversion: '',
     },
   },
 })

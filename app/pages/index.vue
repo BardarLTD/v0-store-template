@@ -9,7 +9,11 @@ useSeoMeta({
   ogTitle: `${product.name} · ${company.name}`,
   ogDescription: product.tagline,
   ogImage: product.image,
+  twitterCard: 'summary_large_image',
 })
+
+const tracking = useTracking()
+onMounted(() => tracking.viewProduct())
 </script>
 
 <template>
@@ -20,6 +24,7 @@ useSeoMeta({
         :alt="product.imageAlt"
         width="1200"
         height="1200"
+        fetchpriority="high"
         class="aspect-square w-full object-contain"
       >
     </div>

@@ -2,8 +2,10 @@
 
 A one-product preorder page: your logo and name, one product photo, the
 product's name and a Preorder button that takes payment through
-[Airwallex](https://www.airwallex.com)'s hosted checkout. A tiny footer links
-to Terms, Privacy, Returns and Built with Draper.
+[Airwallex](https://www.airwallex.com)'s hosted checkout. The Meta Pixel and
+the Google tag are built in: paste their IDs and your ads can optimise for
+real purchases. A tiny footer links to Terms, Privacy, Returns and Built with
+Draper.
 
 Nuxt 4 · Vue 3 · Tailwind CSS 4 · `@airwallex/components-sdk`. Standalone, so
 it runs on its own once exported.
@@ -16,10 +18,11 @@ it runs on its own once exported.
 | Logo and product photo (one image), as hosted HTTPS URLs | `company.logo` and `product.image` in `shared/store.ts` |
 | Terms, Privacy and Returns copy (lorem ipsum until you fill it in) | `app/pages/terms.vue`, `privacy.vue`, `returns.vue` |
 | Colours and font | `app/assets/css/main.css` |
+| Meta Pixel and Google tag IDs | Environment variables (see [Ads tracking](#ads-tracking)) |
 
-Don't remove or change the "Built with Draper" footer link or
-`app/pages/built-with-draper.vue`. They're a condition of the licence: see
-[LICENSE.md](LICENSE.md).
+Don't remove or change the "Built with Draper" footer link, its tagged URL
+(`app/composables/useDraperLink.ts`) or `app/pages/built-with-draper.vue`.
+They're a condition of the licence: see [LICENSE.md](LICENSE.md).
 
 ## Run it
 
@@ -47,6 +50,40 @@ to, are in your Airwallex dashboard under Payments.
 
 Test with sandbox keys and `NUXT_PUBLIC_AIRWALLEX_ENV=demo`. Go live with
 production keys and `prod`.
+
+## Ads tracking
+
+Set any of these environment variables (in v0: the **Vars** panel; on Vercel:
+Project → Settings → Environment Variables) and redeploy. Each is optional;
+nothing loads until it's set.
+
+| Variable | What to paste | Where to find it |
+| --- | --- | --- |
+| `NUXT_PUBLIC_META_PIXEL_ID` | Your pixel's ID, digits only | Meta Events Manager → Connect data → Web |
+| `NUXT_PUBLIC_GOOGLE_ADS_CONVERSION` | The Purchase conversion's `send_to`, `AW-…/…` | Google Ads → Goals → Conversions → your Purchase action → Tag setup → Use Google tag |
+| `NUXT_PUBLIC_GOOGLE_TAG_ID` | A Google Analytics `G-…` ID (or any other tag), comma-separated for more than one | Google Analytics → Admin → Data streams |
+
+The site then sends each platform's standard events, so both recognise them
+without custom setup:
+
+| When | Meta | Google |
+| --- | --- | --- |
+| Any page loads | PageView | page_view |
+| The product page is seen | ViewContent | view_item |
+| Preorder is pressed | InitiateCheckout | begin_checkout |
+| Airwallex confirms the payment on `/thank-you` | Purchase | purchase + the Ads conversion |
+
+Purchase carries the amount Airwallex charged and the order's id (the
+PaymentIntent), and fires once per order, so a reload doesn't count a sale
+twice. Optimise Meta and Google Ads campaigns for Purchase. Check it with
+Meta's Pixel Helper and Google's Tag Assistant; don't place test orders on
+live keys.
+
+The code: `app/plugins/tracking.ts` loads the pixels, and
+`app/composables/useTracking.ts` sends the events.
+
+Selling into the EU or UK? Ad pixels there need the visitor's consent first,
+so add a cookie banner before you turn them on.
 
 ### Images on the checkout
 
