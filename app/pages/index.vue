@@ -39,15 +39,15 @@ onMounted(() => tracking.viewProduct())
 </script>
 
 <template>
-  <section class="mx-auto grid w-full max-w-5xl flex-1 items-center gap-10 px-6 py-12 md:grid-cols-2 md:gap-16 md:py-16">
+  <section class="mx-auto grid w-full max-w-5xl flex-1 items-center gap-10 px-6 pt-6 pb-12 md:grid-cols-2 md:gap-16 md:pt-12 md:pb-16">
     <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
       <img
         :src="mainImage"
         :alt="mainImageAlt"
         width="1200"
-        height="1200"
+        height="960"
         fetchpriority="high"
-        class="aspect-square w-full object-contain"
+        class="aspect-[5/4] w-full origin-[55%_50%] scale-[1.12] object-cover"
       >
     </div>
 
@@ -95,6 +95,9 @@ onMounted(() => tracking.viewProduct())
           <span class="text-sm text-stone-500">{{ product.shipping }}</span>
         </p>
         <PreorderButton :selection="selection" :price="price" :painting-id="chosenPainting?.id" />
+        <p class="max-w-md text-base leading-relaxed text-stone-900">
+          A painting makes a home feel like yours. Ours are hand-painted in oil, to order, from a small range of classics or your own idea. They cost more than a print and less than an original. Look closely and the brushwork shows.
+        </p>
         <p class="text-xs text-stone-500">
           Pictured: a sample from the range. For a Bespoke painting, we email you after you order to ask for your idea and any reference images, and send you a photo preview to approve before it ships.
         </p>
