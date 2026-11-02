@@ -1,17 +1,30 @@
-import { store } from '#shared/store'
+import { store, priceFor, describeSelection, type Selection } from '#shared/store'
 
 /**
  * Start a preorder: create an Airwallex PaymentIntent for one of the product
  * and hand the browser what it needs to open Airwallex's hosted checkout.
- * The amount comes from `shared/store.ts`, never from the request. The
- * product (with its image) rides on the intent so the checkout can show it.
+ * The browser sends only the chosen options; the amount is looked up in the
+ * catalogue in `shared/store.ts`, never taken from the request. The product
+ * (with its image) rides on the intent so the checkout can show it.
  */
 export default defineEventHandler(async (event) => {
+  const body = await readBody<Partial<Record<keyof Selection, unknown>>>(event).catch(() => null)
+  const selection = {
+    size: body?.size,
+    style: body?.style,
+    frame: body?.frame,
+  }
+  const price = priceFor(selection)
+  if (price === undefined) {
+    throw createError({ statusCode: 400, message: 'That combination isn’t available. Please choose again.' })
+  }
+
   const { company, product } = store
+  const options = describeSelection(selection as Selection)
   const intent = await createPaymentIntent(event, {
-    name: product.name,
-    description: product.tagline,
-    price: product.price,
+    name: `${product.name}, ${options}`,
+    description: `${product.name}, ${options}. ${product.tagline}`,
+    price,
     currency: product.currency,
     imageUrl: checkoutImageUrl(event, product.image),
     url: absoluteUrl(event, '/'),

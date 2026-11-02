@@ -29,7 +29,7 @@ export interface Store {
     /** Hosted HTTPS URL (or path under `public/`). One image: the product, on its own. */
     image: string
     imageAlt: string
-    /** In whole currency units, e.g. 4 = $4.00 and 24.5 = $24.50. */
+    /** Price of the default selection, from `catalogue`. In whole currency units. */
     price: number
     /** Three-letter ISO currency code your Airwallex account accepts. */
     currency: string
@@ -38,6 +38,55 @@ export interface Store {
     /** When a preorder ships, said plainly. */
     shipping: string
   }
+}
+
+/** The choices a buyer makes on the product page, in the order shown. */
+export const productOptions = {
+  size: ['16x20 in', '18x24 in'],
+  style: ['Curated', 'Bespoke'],
+  frame: ['Unframed', 'Framed'],
+} as const
+
+export type OptionName = keyof typeof productOptions
+
+export type Selection = { [K in OptionName]: (typeof productOptions)[K][number] }
+
+export const optionLabels: Record<OptionName, string> = {
+  size: 'Size',
+  style: 'Style',
+  frame: 'Frame',
+}
+
+export const defaultSelection: Selection = {
+  size: '16x20 in',
+  style: 'Curated',
+  frame: 'Unframed',
+}
+
+/** Every combination on sale, in whole AUD. The only source of prices. */
+export const catalogue: ReadonlyArray<Selection & { price: number }> = [
+  { size: '16x20 in', style: 'Curated', frame: 'Unframed', price: 300 },
+  { size: '16x20 in', style: 'Curated', frame: 'Framed', price: 500 },
+  { size: '16x20 in', style: 'Bespoke', frame: 'Unframed', price: 375 },
+  { size: '16x20 in', style: 'Bespoke', frame: 'Framed', price: 575 },
+  { size: '18x24 in', style: 'Curated', frame: 'Unframed', price: 400 },
+  { size: '18x24 in', style: 'Curated', frame: 'Framed', price: 600 },
+  { size: '18x24 in', style: 'Bespoke', frame: 'Unframed', price: 475 },
+  { size: '18x24 in', style: 'Bespoke', frame: 'Framed', price: 675 },
+]
+
+/** The catalogue price for a selection, or undefined if it isn't on sale. */
+export function priceFor(selection: { size?: unknown, style?: unknown, frame?: unknown }): number | undefined {
+  return catalogue.find(item =>
+    item.size === selection.size
+    && item.style === selection.style
+    && item.frame === selection.frame,
+  )?.price
+}
+
+/** e.g. "16x20 in, Curated, Unframed" */
+export function describeSelection(selection: Selection): string {
+  return `${selection.size}, ${selection.style}, ${selection.frame}`
 }
 
 export const store: Store = {
@@ -51,11 +100,11 @@ export const store: Store = {
     phone: '0481 263 226',
   },
   product: {
-    name: 'Hand-painted oil painting, 20x24 in, unframed',
+    name: 'Hand-painted oil painting',
     tagline: 'A home with depth.',
     image: 'https://res.cloudinary.com/sunrise-cache/image/upload/w_1568,c_limit,q_auto:good,f_auto/v1793598856/sunrise-chat/3c7d275b-4941-4cdd-8cf8-6937f9745a97/2c30f979-7e73-4b0e-b253-b6b3e2efd1c9.jpg',
     imageAlt: 'Hand-painted oil landscape of two trees above fields and hills',
-    price: 300,
+    price: priceFor(defaultSelection)!,
     currency: 'AUD',
     countryCode: 'AU',
     shipping: 'Made to order. Preview photo within 1 to 2 weeks, then delivery in 1 to 2 weeks. Free delivery within Australia.',
