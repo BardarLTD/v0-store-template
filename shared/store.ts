@@ -17,6 +17,10 @@ export interface Store {
     logo: string
     /** Where buyers write to about their preorder. */
     email: string
+    legalName: string
+    registration: string
+    address: string
+    phone: string
   }
   product: {
     name: string
@@ -38,19 +42,23 @@ export interface Store {
 
 export const store: Store = {
   company: {
-    name: 'Peel & Co.',
-    logo: '/logo.svg',
-    email: 'hello@example.com',
+    name: 'Cavalletto',
+    logo: '',
+    email: 'hello@cavalletto.com.au',
+    legalName: 'Bardar Pty Ltd',
+    registration: 'ABN 61 664 482 384',
+    address: '163a Palmer Street, Darlinghurst NSW 2010',
+    phone: '0481 263 226',
   },
   product: {
-    name: 'The Banana',
-    tagline: 'Picked ripe and posted the day it’s ready.',
-    image: 'https://images.unsplash.com/photo-1587132137056-bfbf0166836e?w=1200&q=80&fm=jpg',
-    imageAlt: 'A single ripe yellow banana on a white background',
-    price: 5,
-    currency: 'USD',
-    countryCode: 'US',
-    shipping: 'Ships in 6–8 weeks',
+    name: 'Hand-painted oil painting, 20x24 in, unframed',
+    tagline: 'A home with depth.',
+    image: 'https://res.cloudinary.com/sunrise-cache/image/upload/w_1568,c_limit,q_auto:good,f_auto/v1793598856/sunrise-chat/3c7d275b-4941-4cdd-8cf8-6937f9745a97/2c30f979-7e73-4b0e-b253-b6b3e2efd1c9.jpg',
+    imageAlt: 'Hand-painted oil landscape of two trees above fields and hills',
+    price: 300,
+    currency: 'AUD',
+    countryCode: 'AU',
+    shipping: 'Made to order. Preview photo within 1 to 2 weeks, then delivery in 1 to 2 weeks. Free delivery within Australia.',
   },
 }
 
