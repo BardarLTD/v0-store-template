@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { formatPrice, type Selection } from '#shared/store'
 
-const props = defineProps<{ selection: Selection, price: number }>()
+const props = defineProps<{ selection: Selection, price: number, paintingId?: string }>()
 
 /**
  * The one action on the page. It asks the server for a PaymentIntent, then
@@ -36,7 +36,12 @@ async function preorder() {
   try {
     const order = await $fetch<Preorder>('/api/preorder', {
       method: 'POST',
-      body: { size: props.selection.size, style: props.selection.style, frame: props.selection.frame },
+      body: {
+        size: props.selection.size,
+        style: props.selection.style,
+        frame: props.selection.frame,
+        ...(props.paintingId ? { painting: props.paintingId } : {}),
+      },
     })
     const { init } = await import('@airwallex/components-sdk')
     const { payments } = await init({

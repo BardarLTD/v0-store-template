@@ -1,4 +1,5 @@
 import { store, priceFor, describeSelection, type Selection } from '#shared/store'
+import { paintings, findPainting } from '#shared/catalogue'
 
 /**
  * Start a preorder: create an Airwallex PaymentIntent for one of the product
@@ -8,7 +9,7 @@ import { store, priceFor, describeSelection, type Selection } from '#shared/stor
  * (with its image) rides on the intent so the checkout can show it.
  */
 export default defineEventHandler(async (event) => {
-  const body = await readBody<Partial<Record<keyof Selection, unknown>>>(event).catch(() => null)
+  const body = await readBody<Partial<Record<keyof Selection | 'painting', unknown>>>(event).catch(() => null)
   const selection = {
     size: body?.size,
     style: body?.style,
@@ -19,8 +20,17 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'That combination isn’t available. Please choose again.' })
   }
 
+  let paintingSuffix = ''
+  if (selection.style === 'Curated' && paintings.length > 0) {
+    const painting = findPainting(body?.painting)
+    if (!painting) {
+      throw createError({ statusCode: 400, message: 'That painting isn’t available. Please choose again.' })
+    }
+    paintingSuffix = `: ${painting.title}`
+  }
+
   const { company, product } = store
-  const options = describeSelection(selection as Selection)
+  const options = `${describeSelection(selection as Selection)}${paintingSuffix}`
   const intent = await createPaymentIntent(event, {
     name: `${product.name}, ${options}`,
     description: `${product.name}, ${options}. ${product.tagline}`,
