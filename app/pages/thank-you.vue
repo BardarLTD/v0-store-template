@@ -21,9 +21,9 @@ useSeoMeta({ title: `Thank you · ${store.company.name}`, robots: 'noindex' })
 </script>
 
 <template>
-  <ContentPage v-if="data?.paid" title="You’re on the list.">
+  <ContentPage v-if="data?.paid" title="Thank you, your order’s in.">
     <p>
-      Your preorder for {{ store.product.name }} is confirmed. {{ store.product.shipping }}, and
+      Your order for {{ store.product.name }} is confirmed. {{ store.product.shipping }}, and
       we’ll email you when it’s on its way.
     </p>
     <p>
@@ -32,7 +32,7 @@ useSeoMeta({ title: `Thank you · ${store.company.name}`, robots: 'noindex' })
     <p><NuxtLink to="/">← Back to the store</NuxtLink></p>
   </ContentPage>
 
-  <ContentPage v-else title="We couldn’t confirm your preorder.">
+  <ContentPage v-else title="We couldn’t confirm your order.">
     <p v-if="error">
       Something went wrong checking your payment. If you were charged, write to
       <a :href="`mailto:${store.company.email}`">{{ store.company.email }}</a> and we’ll sort it out.

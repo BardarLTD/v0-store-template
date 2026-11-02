@@ -12,7 +12,14 @@ const draperHref = useDraperLink('footer')
 </script>
 
 <template>
-  <footer class="mx-auto w-full max-w-5xl px-6 pb-8">
+  <footer class="mx-auto flex w-full max-w-5xl flex-col gap-5 px-6 pb-8">
+    <address class="flex flex-col gap-1 text-left text-sm not-italic leading-relaxed text-stone-600">
+      <span>Bardar Pty Ltd, trading as Cavalletto</span>
+      <span>ABN 61 664 482 384</span>
+      <span>163a Palmer Street, Darlinghurst NSW 2010</span>
+      <a href="mailto:hello@cavalletto.com.au" class="w-fit underline underline-offset-2 hover:text-stone-900">hello@cavalletto.com.au</a>
+      <a href="tel:+61481263226" class="w-fit underline underline-offset-2 hover:text-stone-900">0481 263 226</a>
+    </address>
     <div class="flex flex-col gap-3 border-t border-stone-200 pt-5 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
       <span>© {{ year }} {{ store.company.name }}</span>
 
