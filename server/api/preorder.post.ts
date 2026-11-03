@@ -20,6 +20,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'That combination isn’t available. Please choose again.' })
   }
 
+  // Each choice is recorded as its own field on the order so it can be read
+  // straight off the payment in Airwallex.
+  const orderDetails: Record<string, string> = {
+    size: String(selection.size),
+    style: String(selection.style),
+    finish: String(selection.frame),
+  }
+
   let paintingSuffix = ''
   if (selection.style === 'Curated' && paintings.length > 0) {
     const painting = findPainting(body?.painting)
@@ -27,6 +35,8 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, message: 'That painting isn’t available. Please choose again.' })
     }
     paintingSuffix = `: ${painting.title}`
+    orderDetails.artwork = painting.title
+    orderDetails.artwork_id = painting.id
   }
 
   let frameSuffix = ''
@@ -36,6 +46,8 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, message: 'That frame isn’t available. Please choose again.' })
     }
     frameSuffix = ` (${frameStyle.label} frame)`
+    orderDetails.frame = frameStyle.label
+    orderDetails.frame_id = frameStyle.id
   }
 
   // The buyer's optional note is free text: it is recorded on the order but
@@ -52,7 +64,7 @@ export default defineEventHandler(async (event) => {
     description: brief
       ? `${product.name}, ${options}. Description: ${brief}`
       : `${product.name}, ${options}. ${product.tagline}`,
-    metadata: brief ? { description: brief } : undefined,
+    metadata: brief ? { ...orderDetails, description: brief } : orderDetails,
     price,
     currency: product.currency,
     imageUrl: checkoutImageUrl(event, product.image),
