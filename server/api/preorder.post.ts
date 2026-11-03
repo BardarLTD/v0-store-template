@@ -9,7 +9,7 @@ import { paintings, findPainting } from '#shared/catalogue'
  * (with its image) rides on the intent so the checkout can show it.
  */
 export default defineEventHandler(async (event) => {
-  const body = await readBody<Partial<Record<keyof Selection | 'painting', unknown>>>(event).catch(() => null)
+  const body = await readBody<Partial<Record<keyof Selection | 'painting' | 'brief', unknown>>>(event).catch(() => null)
   const selection = {
     size: body?.size,
     style: body?.style,
@@ -29,11 +29,24 @@ export default defineEventHandler(async (event) => {
     paintingSuffix = `: ${painting.title}`
   }
 
+  // The buyer's description is free text: it is recorded on the order but
+  // never feeds into the price, which comes from the catalogue above.
+  let brief = ''
+  if (selection.style === 'Bespoke') {
+    brief = typeof body?.brief === 'string' ? body.brief.trim().slice(0, 500) : ''
+    if (!brief) {
+      throw createError({ statusCode: 400, message: 'Please describe your painting.' })
+    }
+  }
+
   const { company, product } = store
   const options = `${describeSelection(selection as Selection)}${paintingSuffix}`
   const intent = await createPaymentIntent(event, {
     name: `${product.name}, ${options}`,
-    description: `${product.name}, ${options}. ${product.tagline}`,
+    description: brief
+      ? `${product.name}, ${options}. Description: ${brief}`
+      : `${product.name}, ${options}. ${product.tagline}`,
+    metadata: brief ? { description: brief } : undefined,
     price,
     currency: product.currency,
     imageUrl: checkoutImageUrl(event, product.image),
