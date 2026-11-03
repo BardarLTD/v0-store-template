@@ -104,6 +104,9 @@ onMounted(() => tracking.viewProduct())
           <span class="text-2xl font-semibold text-stone-900" aria-live="polite">{{ formatPrice(price) }}</span>
           <span class="text-sm text-stone-500">{{ product.shipping }}</span>
         </p>
+        <p v-if="isBespoke" class="max-w-md text-sm leading-relaxed text-stone-900">
+          After you pay, email your reference photo to hello@cavalletto.com.au from the address you ordered with. We'll confirm your order and send a photo preview to approve before it ships.
+        </p>
         <div v-if="isBespoke" class="flex flex-col gap-2">
           <label for="brief" class="text-sm font-bold text-stone-900">Describe your painting</label>
           <textarea
@@ -117,7 +120,7 @@ onMounted(() => tracking.viewProduct())
             class="w-full rounded-md border-[1.5px] border-stone-900 bg-transparent px-4 py-3 text-base leading-relaxed text-stone-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           />
           <p id="brief-help" class="flex justify-between gap-4 text-sm text-stone-500">
-            <span>Tell us the subject, style and any details.</span>
+            <span>Tell us any specific requirements, and email your reference photo to hello@cavalletto.com.au</span>
             <span aria-hidden="true">{{ brief.length }}/{{ BRIEF_MAX }}</span>
           </p>
         </div>
@@ -128,9 +131,6 @@ onMounted(() => tracking.viewProduct())
           :brief="isBespoke ? brief : undefined"
           :disabled="briefMissing"
         />
-        <p v-if="isBespoke" class="max-w-md text-sm leading-relaxed text-stone-900">
-          After you pay, email your reference photo to hello@cavalletto.com.au from the address you ordered with. We'll confirm your order and send a photo preview to approve before it ships.
-        </p>
         <p class="max-w-md text-base leading-relaxed text-stone-900">
           A painting makes a home feel like yours. Ours are hand-painted in oil, to order, from a small range of classics or your own idea. They cost more than a print and less than an original. Look closely and the brushwork shows.
         </p>
