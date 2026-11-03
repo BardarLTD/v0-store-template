@@ -30,13 +30,39 @@ const brief = ref('')
 const isBespoke = computed(() => selection.style === 'Bespoke')
 const briefMissing = computed(() => isBespoke.value && brief.value.trim() === '')
 
+const PAGE_TITLE = 'Hand-Painted Oil Paintings, Made to Order'
+const PAGE_DESCRIPTION = 'Oil paintings painted by hand to order, from a small range of classics or your own idea. Free delivery across Australia.'
+
 useSeoMeta({
-  title: `${product.name} · ${company.name}`,
-  description: product.tagline,
-  ogTitle: `${product.name} · ${company.name}`,
-  ogDescription: product.tagline,
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  ogTitle: `${PAGE_TITLE} · ${company.name}`,
+  ogDescription: PAGE_DESCRIPTION,
   ogImage: product.image,
   twitterCard: 'summary_large_image',
+})
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        'name': product.name,
+        'description': PAGE_DESCRIPTION,
+        'image': new URL(product.image, 'https://cavalletto.com.au/').href,
+        'brand': { '@type': 'Brand', 'name': 'Cavalletto' },
+        'offers': {
+          '@type': 'Offer',
+          'url': 'https://cavalletto.com.au',
+          'price': product.price,
+          'priceCurrency': product.currency,
+          'availability': 'https://schema.org/PreOrder',
+        },
+      }),
+    },
+  ],
 })
 
 const tracking = useTracking()

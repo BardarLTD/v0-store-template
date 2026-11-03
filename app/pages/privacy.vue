@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { store } from '#shared/store'
-
-useSeoMeta({ title: `Privacy Policy · ${store.company.name}` })
+useSeoMeta({
+  title: 'Privacy Policy',
+  description: 'How Cavalletto collects, uses and protects your personal information.',
+})
 </script>
 
 <template>

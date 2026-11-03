@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { store } from '#shared/store'
-
-useSeoMeta({ title: `How it works · ${store.company.name}` })
+useSeoMeta({
+  title: 'How Our Paintings Are Made and Delivered',
+  description: 'From order to your wall in about 2 to 4 weeks: painted by hand, a photo preview, then free delivery across Australia.',
+})
 
 const STEPS = [
   {

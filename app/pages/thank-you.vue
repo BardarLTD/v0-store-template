@@ -17,7 +17,7 @@ onMounted(() => {
 })
 
 // Only buyers land here: keep it out of search results.
-useSeoMeta({ title: `Thank you · ${store.company.name}`, robots: 'noindex' })
+useSeoMeta({ title: 'Thank you', robots: 'noindex' })
 </script>
 
 <template>
