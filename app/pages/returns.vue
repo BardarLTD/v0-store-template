@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { store } from '#shared/store'
-
-useSeoMeta({ title: `Pre-order & Refund Policy · ${store.company.name}` })
+useSeoMeta({ title: 'Pre-order & Refund Policy' })
 </script>
 
 <template>

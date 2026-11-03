@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { store } from '#shared/store'
-
-useSeoMeta({ title: `How it works · ${store.company.name}` })
+useSeoMeta({ title: 'How it works' })
 
 const STEPS = [
   {

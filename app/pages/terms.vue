@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { store } from '#shared/store'
-
-useSeoMeta({ title: `Terms of Service · ${store.company.name}` })
+useSeoMeta({ title: 'Terms of Service' })
 </script>
 
 <template>
