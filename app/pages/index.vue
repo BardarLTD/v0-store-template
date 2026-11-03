@@ -2,36 +2,52 @@
 import {
   store,
   formatPrice,
-  productOptions,
-  optionLabels,
   defaultSelection,
   priceFor,
-  type OptionName,
   type Selection,
 } from '#shared/store'
-import { paintings } from '#shared/catalogue'
+import { paintings, collection, findPainting } from '#shared/catalogue'
 
 const { company, product } = store
 
-const optionNames = Object.keys(productOptions) as OptionName[]
-const selection = reactive<Selection>({ ...defaultSelection })
-const price = computed(() => priceFor(selection) ?? product.price)
+const route = useRoute()
+const linkedPainting = findPainting(route.query.painting)
 
-const paintingId = ref(paintings[0]?.id ?? '')
-const showRange = computed(() => paintings.length > 0 && selection.style === 'Curated')
+const selection = reactive<Selection>({
+  ...defaultSelection,
+  style: route.query.style === 'bespoke' ? 'Bespoke' : 'Curated',
+})
+const price = computed(() => priceFor(selection) ?? product.price)
+const isBespoke = computed(() => selection.style === 'Bespoke')
+
+const paintingId = ref(linkedPainting?.id ?? paintings[0]?.id ?? '')
 const chosenPainting = computed(() =>
-  showRange.value ? paintings.find(painting => painting.id === paintingId.value) : undefined,
+  isBespoke.value ? undefined : findPainting(paintingId.value),
 )
-const mainImage = computed(() => chosenPainting.value?.image ?? product.image)
-const mainImageAlt = computed(() => chosenPainting.value?.imageAlt ?? product.imageAlt)
+
+const sizeChoices = [
+  { value: '16x20 in', label: 'Medium', detail: '16 × 20 in · 40 × 50 cm' },
+  { value: '18x24 in', label: 'Large', detail: '18 × 24 in · 45 × 60 cm' },
+] as const
+
+const frameChoices = [
+  { value: 'Unframed', label: 'Rolled', detail: 'Posted rolled in a tube, ready for a local framer' },
+  { value: 'Framed', label: 'Framed', detail: 'Stretched and framed, ready to hang' },
+] as const
+
+/** Dimensions follow the painting's orientation: landscape reads width first. */
+function sizeDetail(detail: string): string {
+  if (chosenPainting.value?.orientation !== 'landscape') return detail
+  return detail.replace(/(\d+) × (\d+)/g, '$2 × $1')
+}
 
 const BRIEF_MAX = 500
 const brief = ref('')
-const isBespoke = computed(() => selection.style === 'Bespoke')
-const briefMissing = computed(() => isBespoke.value && brief.value.trim() === '')
+
+const quoteHref = `mailto:${company.email}?subject=${encodeURIComponent('Bespoke painting: size quote')}`
 
 const PAGE_TITLE = 'Hand-Painted Oil Paintings, Made to Order'
-const PAGE_DESCRIPTION = 'Oil paintings painted by hand to order, from a small range of classics or your own idea. Free delivery across Australia.'
+const PAGE_DESCRIPTION = 'Oil paintings painted by hand to order, from Collection one or your own idea. Free delivery across Australia.'
 
 useSeoMeta({
   title: PAGE_TITLE,
@@ -67,29 +83,47 @@ useHead({
 
 const tracking = useTracking()
 onMounted(() => tracking.viewProduct())
+
+const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md border-[1.5px] border-stone-900 px-4 py-3 text-sm transition-colors duration-150 has-checked:border-accent has-checked:bg-accent has-checked:text-cream has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent'
 </script>
 
 <template>
   <section class="mx-auto grid w-full max-w-5xl flex-1 items-start gap-10 px-6 pt-6 pb-12 md:grid-cols-2 md:gap-16 md:pt-12 md:pb-16">
     <div class="flex flex-col gap-3 md:sticky md:top-8">
-      <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+      <div v-if="chosenPainting" class="flex items-center justify-center rounded-2xl border border-stone-200 bg-sunk p-6">
         <img
-          :src="mainImage"
-          :alt="mainImageAlt"
+          :key="chosenPainting.id"
+          :src="chosenPainting.image"
+          :alt="chosenPainting.imageAlt"
+          width="960"
+          height="768"
+          fetchpriority="high"
+          class="max-h-[32rem] w-auto max-w-full object-contain"
+        >
+      </div>
+      <div v-else class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+        <img
+          :src="product.image"
+          :alt="product.imageAlt"
           width="1200"
           height="960"
           fetchpriority="high"
           class="aspect-[5/4] w-full origin-[55%_50%] scale-[1.12] object-cover"
         >
       </div>
-      <p class="text-xs text-stone-500">
-        Pictured: a sample from the range. For a Bespoke painting, we email you after you order to ask for your idea and any reference images, and send you a photo preview to approve before it ships.
+      <p class="text-xs leading-relaxed text-stone-500">
+        <template v-if="chosenPainting">
+          Reference image of the original. Each reproduction is painted by hand, so small variations are part of the piece.
+        </template>
+        <template v-else>
+          Pictured: a bespoke commission. Yours is painted from your own reference, and you approve a photo preview before it ships.
+        </template>
       </p>
     </div>
 
     <div class="flex flex-col gap-8">
       <div class="flex flex-col gap-4">
-        <h1 class="text-5xl font-bold tracking-display text-stone-900 md:text-6xl">
+        <h1 class="text-5xl font-bold tracking-display text-balance text-stone-900 md:text-6xl">
           {{ product.name }}
         </h1>
         <p class="max-w-md text-lg text-stone-600">
@@ -97,68 +131,112 @@ onMounted(() => tracking.viewProduct())
         </p>
       </div>
 
-      <div class="flex flex-col gap-5">
-        <p v-if="chosenPainting" class="text-sm text-stone-900" aria-live="polite">
-          <span class="font-bold">{{ chosenPainting.title }}</span>
-          <span class="text-stone-500">, {{ chosenPainting.artist }}</span>
+      <fieldset class="flex flex-col gap-3">
+        <legend class="mb-2 text-sm font-bold text-stone-900">
+          1. Choose your painting
+        </legend>
+        <div class="grid grid-cols-2 gap-2">
+          <label :class="choiceClass">
+            <input v-model="selection.style" type="radio" name="style" value="Curated" class="sr-only">
+            <span class="font-bold">{{ collection.name }}</span>
+            <span class="opacity-80">Pick from our curated range</span>
+          </label>
+          <label :class="choiceClass">
+            <input v-model="selection.style" type="radio" name="style" value="Bespoke" class="sr-only">
+            <span class="font-bold">Bespoke</span>
+            <span class="opacity-80">Any painting you like</span>
+          </label>
+        </div>
+
+        <div v-if="chosenPainting" class="flex flex-col gap-2 pt-2" aria-live="polite">
+          <p class="text-base text-stone-900">
+            <span class="font-serif text-xl font-bold italic">{{ chosenPainting.title }}</span>
+            <span class="block text-sm">{{ chosenPainting.artist }}, {{ chosenPainting.year }} · {{ chosenPainting.style }}</span>
+          </p>
+          <p class="max-w-md text-sm leading-relaxed text-stone-900">
+            {{ chosenPainting.description }}
+          </p>
+          <p class="max-w-md text-sm leading-relaxed text-stone-900">
+            <span class="font-bold">Suits:</span> {{ chosenPainting.suits }}
+          </p>
+          <a href="#range" class="text-sm font-bold text-accent underline underline-offset-2">
+            Choose a different painting
+          </a>
+        </div>
+
+        <div v-else class="flex max-w-md flex-col gap-2 pt-2 text-sm leading-relaxed text-stone-900">
+          <p>
+            Buy a bespoke painting below, then email your reference image and requirements to
+            <a :href="`mailto:${company.email}`" class="font-bold text-accent underline underline-offset-2">{{ company.email }}</a>
+            from the address you ordered with. We&apos;ll confirm the details and send a photo preview to approve before it ships.
+          </p>
+        </div>
+      </fieldset>
+
+      <fieldset class="flex flex-col gap-2">
+        <legend class="mb-2 text-sm font-bold text-stone-900">
+          2. Size
+        </legend>
+        <div class="grid grid-cols-2 gap-2">
+          <label v-for="size in sizeChoices" :key="size.value" :class="choiceClass">
+            <input v-model="selection.size" type="radio" name="size" :value="size.value" class="sr-only">
+            <span class="font-bold">{{ size.label }}</span>
+            <span class="opacity-80">{{ sizeDetail(size.detail) }}</span>
+          </label>
+        </div>
+        <p v-if="chosenPainting" class="text-xs leading-relaxed text-stone-500">
+          Each painting is adapted by hand to fit the canvas you choose, so nothing important is lost.
         </p>
-        <fieldset v-for="name in optionNames" :key="name" class="flex flex-col gap-2">
-          <legend class="mb-2 text-sm font-bold text-stone-900">
-            {{ optionLabels[name] }}
-          </legend>
-          <div class="flex flex-wrap gap-2">
-            <label
-              v-for="value in productOptions[name]"
-              :key="value"
-              class="relative inline-flex cursor-pointer items-center rounded-md border-[1.5px] border-stone-900 px-4 py-2 text-sm transition-colors duration-150 has-checked:border-accent has-checked:bg-accent has-checked:text-cream has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent"
-            >
-              <input
-                v-model="selection[name]"
-                type="radio"
-                :name="name"
-                :value="value"
-                class="sr-only"
-              >
-              {{ value }}
-            </label>
-          </div>
-        </fieldset>
+        <p v-else class="text-xs leading-relaxed text-stone-500">
+          Need a different size? <a :href="quoteHref" class="font-bold text-accent underline underline-offset-2">Email us before you order</a> and we&apos;ll quote you.
+        </p>
+      </fieldset>
+
+      <fieldset class="flex flex-col gap-2">
+        <legend class="mb-2 text-sm font-bold text-stone-900">
+          3. Finish
+        </legend>
+        <div class="grid grid-cols-2 gap-2">
+          <label v-for="frame in frameChoices" :key="frame.value" :class="choiceClass">
+            <input v-model="selection.frame" type="radio" name="frame" :value="frame.value" class="sr-only">
+            <span class="font-bold">{{ frame.label }}</span>
+            <span class="opacity-80">{{ frame.detail }}</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div v-if="isBespoke" class="flex flex-col gap-2">
+        <label for="brief" class="text-sm font-bold text-stone-900">
+          What would you like painted? <span class="font-normal">(optional)</span>
+        </label>
+        <textarea
+          id="brief"
+          v-model="brief"
+          name="brief"
+          rows="3"
+          :maxlength="BRIEF_MAX"
+          aria-describedby="brief-help"
+          class="w-full rounded-md border-[1.5px] border-stone-900 bg-transparent px-4 py-3 text-base leading-relaxed text-stone-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        />
+        <p id="brief-help" class="flex justify-between gap-4 text-xs text-stone-500">
+          <span>A quick note helps. Send the full details and reference image by email after you order.</span>
+          <span aria-hidden="true">{{ brief.length }}/{{ BRIEF_MAX }}</span>
+        </p>
       </div>
 
       <div class="flex flex-col gap-4">
-        <p class="flex items-baseline gap-3">
+        <p class="flex flex-col gap-1">
           <span class="text-2xl font-semibold text-stone-900" aria-live="polite">{{ formatPrice(price) }}</span>
           <span class="text-sm text-stone-500">{{ product.shipping }}</span>
         </p>
-        <p v-if="isBespoke" class="max-w-md text-sm leading-relaxed text-stone-900">
-          After you pay, email your reference photo to hello@cavalletto.com.au from the address you ordered with. We'll confirm your order and send a photo preview to approve before it ships.
-        </p>
-        <div v-if="isBespoke" class="flex flex-col gap-2">
-          <label for="brief" class="text-sm font-bold text-stone-900">Describe your painting</label>
-          <textarea
-            id="brief"
-            v-model="brief"
-            name="brief"
-            rows="4"
-            required
-            :maxlength="BRIEF_MAX"
-            aria-describedby="brief-help"
-            class="w-full rounded-md border-[1.5px] border-stone-900 bg-transparent px-4 py-3 text-base leading-relaxed text-stone-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-          />
-          <p id="brief-help" class="flex justify-between gap-4 text-sm text-stone-500">
-            <span>Tell us any specific requirements, and email your reference photo to hello@cavalletto.com.au</span>
-            <span aria-hidden="true">{{ brief.length }}/{{ BRIEF_MAX }}</span>
-          </p>
-        </div>
         <PreorderButton
           :selection="selection"
           :price="price"
           :painting-id="chosenPainting?.id"
           :brief="isBespoke ? brief : undefined"
-          :disabled="briefMissing"
         />
         <p class="max-w-md text-base leading-relaxed text-stone-900">
-          A painting makes a home feel like yours. Ours are hand-painted in oil, to order, from a small range of classics or your own idea. They cost more than a print and less than an original. Look closely and the brushwork shows.
+          Hand-painted in oil on canvas, to order. They cost more than a print and less than an original. Look closely and the brushwork shows.
         </p>
       </div>
 
@@ -167,50 +245,21 @@ onMounted(() => tracking.viewProduct())
           Delivery
         </h2>
         <p class="max-w-md text-base leading-relaxed text-stone-900">
-          Free delivery within Australia. Unframed paintings are posted rolled, so you'll need to stretch and frame them locally before hanging. A local framer, or a staple gun and a stretcher frame, will do it. You approve a photo preview before your painting ships.
+          Free delivery within Australia. Rolled paintings are posted in a tube, so you&apos;ll need to stretch and frame them locally before hanging. Framed paintings arrive ready to hang. Either way, you approve a photo preview before your painting ships.
         </p>
       </section>
     </div>
   </section>
 
-  <section v-if="showRange" aria-labelledby="range-heading" class="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 pb-12 md:pb-16">
-    <h2 id="range-heading" class="text-3xl font-bold tracking-display text-stone-900">
-      The range
-    </h2>
-    <fieldset>
-      <legend class="sr-only">Choose a painting</legend>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <label
-          v-for="painting in paintings"
-          :key="painting.id"
-          class="flex cursor-pointer flex-col gap-3 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent"
-        >
-          <input
-            v-model="paintingId"
-            type="radio"
-            name="painting"
-            :value="painting.id"
-            class="sr-only"
-          >
-          <span
-            class="overflow-hidden rounded-2xl border border-stone-200 bg-white"
-            :class="painting.id === paintingId ? 'outline-2 outline-offset-2 outline-accent' : ''"
-          >
-            <img
-              :src="painting.image"
-              :alt="painting.imageAlt"
-              width="600"
-              height="600"
-              loading="lazy"
-              class="aspect-square w-full object-contain"
-            >
-          </span>
-          <span class="flex flex-col">
-            <span class="text-sm font-bold text-stone-900">{{ painting.title }}</span>
-            <span class="text-sm text-stone-500">{{ painting.artist }}</span>
-          </span>
-        </label>
-      </div>
-    </fieldset>
+  <section v-if="!isBespoke" id="range" aria-labelledby="range-heading" class="mx-auto flex w-full max-w-5xl scroll-mt-8 flex-col gap-6 px-6 pb-12 md:pb-16">
+    <div class="flex flex-col gap-2">
+      <h2 id="range-heading" class="text-3xl font-bold tracking-display text-stone-900">
+        {{ collection.name }}
+      </h2>
+      <p class="max-w-xl text-base leading-relaxed text-stone-900">
+        {{ collection.intro }} Tap one to choose it.
+      </p>
+    </div>
+    <PaintingPicker v-model="paintingId" :paintings="paintings" />
   </section>
 </template>
