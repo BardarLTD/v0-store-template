@@ -86,6 +86,8 @@ export interface PreorderItem {
   imageUrl: string
   /** Absolute URL of the product page. */
   url: string
+  /** Extra order details recorded on the PaymentIntent's metadata. */
+  metadata?: Record<string, string>
 }
 
 /** A PaymentIntent for one of the item, with the item attached as the order. */
@@ -96,7 +98,7 @@ export function createPaymentIntent(event: H3Event, item: PreorderItem): Promise
     amount: item.price,
     currency: item.currency,
     descriptor: item.name.slice(0, 32),
-    metadata: { type: 'preorder' },
+    metadata: { ...item.metadata, type: 'preorder' },
     order: {
       products: [{
         code: 'preorder',

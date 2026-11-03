@@ -25,6 +25,11 @@ const chosenPainting = computed(() =>
 const mainImage = computed(() => chosenPainting.value?.image ?? product.image)
 const mainImageAlt = computed(() => chosenPainting.value?.imageAlt ?? product.imageAlt)
 
+const BRIEF_MAX = 500
+const brief = ref('')
+const isBespoke = computed(() => selection.style === 'Bespoke')
+const briefMissing = computed(() => isBespoke.value && brief.value.trim() === '')
+
 useSeoMeta({
   title: `${product.name} · ${company.name}`,
   description: product.tagline,
@@ -94,7 +99,33 @@ onMounted(() => tracking.viewProduct())
           <span class="text-2xl font-semibold text-stone-900" aria-live="polite">{{ formatPrice(price) }}</span>
           <span class="text-sm text-stone-500">{{ product.shipping }}</span>
         </p>
-        <PreorderButton :selection="selection" :price="price" :painting-id="chosenPainting?.id" />
+        <div v-if="isBespoke" class="flex flex-col gap-2">
+          <label for="brief" class="text-sm font-bold text-stone-900">Describe your painting</label>
+          <textarea
+            id="brief"
+            v-model="brief"
+            name="brief"
+            rows="4"
+            required
+            :maxlength="BRIEF_MAX"
+            aria-describedby="brief-help"
+            class="w-full rounded-md border-[1.5px] border-stone-900 bg-transparent px-4 py-3 text-base leading-relaxed text-stone-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          />
+          <p id="brief-help" class="flex justify-between gap-4 text-sm text-stone-500">
+            <span>Tell us the subject, style and any details.</span>
+            <span aria-hidden="true">{{ brief.length }}/{{ BRIEF_MAX }}</span>
+          </p>
+        </div>
+        <PreorderButton
+          :selection="selection"
+          :price="price"
+          :painting-id="chosenPainting?.id"
+          :brief="isBespoke ? brief : undefined"
+          :disabled="briefMissing"
+        />
+        <p v-if="isBespoke" class="max-w-md text-sm leading-relaxed text-stone-900">
+          After you pay, email your reference photo to hello@cavalletto.com.au from the address you ordered with. We'll confirm your order and send a photo preview to approve before it ships.
+        </p>
         <p class="max-w-md text-base leading-relaxed text-stone-900">
           A painting makes a home feel like yours. Ours are hand-painted in oil, to order, from a small range of classics or your own idea. They cost more than a print and less than an original. Look closely and the brushwork shows.
         </p>
@@ -102,6 +133,15 @@ onMounted(() => tracking.viewProduct())
           Pictured: a sample from the range. For a Bespoke painting, we email you after you order to ask for your idea and any reference images, and send you a photo preview to approve before it ships.
         </p>
       </div>
+
+      <section aria-labelledby="delivery-heading" class="flex flex-col gap-2">
+        <h2 id="delivery-heading" class="text-xl font-bold tracking-display text-stone-900">
+          Delivery
+        </h2>
+        <p class="max-w-md text-base leading-relaxed text-stone-900">
+          Free delivery within Australia. Unframed paintings are posted rolled, so you'll need to stretch and frame them locally before hanging. A local framer, or a staple gun and a stretcher frame, will do it. You approve a photo preview before your painting ships.
+        </p>
+      </section>
     </div>
   </section>
 

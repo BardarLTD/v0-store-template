@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { formatPrice, type Selection } from '#shared/store'
 
-const props = defineProps<{ selection: Selection, price: number, paintingId?: string }>()
+const props = defineProps<{
+  selection: Selection
+  price: number
+  paintingId?: string
+  brief?: string
+  disabled?: boolean
+}>()
 
 /**
  * The one action on the page. It asks the server for a PaymentIntent, then
@@ -41,6 +47,7 @@ async function preorder() {
         style: props.selection.style,
         frame: props.selection.frame,
         ...(props.paintingId ? { painting: props.paintingId } : {}),
+        ...(props.brief !== undefined ? { brief: props.brief } : {}),
       },
     })
     const { init } = await import('@airwallex/components-sdk')
@@ -75,8 +82,9 @@ async function preorder() {
   <div class="flex flex-col gap-3">
     <button
       type="button"
-      :disabled="pending"
-      class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-accent px-8 text-base font-semibold text-white transition-colors duration-150 ease-key hover:bg-accent-hover active:bg-accent-active disabled:cursor-progress disabled:opacity-70 sm:w-auto"
+      :disabled="pending || props.disabled"
+      class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-accent px-8 text-base font-semibold text-white transition-colors duration-150 ease-key hover:bg-accent-hover active:bg-accent-active disabled:opacity-70 sm:w-auto"
+      :class="pending ? 'disabled:cursor-progress' : 'disabled:cursor-not-allowed disabled:hover:bg-accent'"
       @click="preorder"
     >
       <span
