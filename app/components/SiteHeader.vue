@@ -11,7 +11,10 @@ import { store } from '#shared/store'
       <img v-if="store.company.logo" :src="store.company.logo" alt="" width="24" height="24" class="size-6 rounded-md">
       {{ store.company.name }}
     </NuxtLink>
-    <nav aria-label="Main">
+    <nav aria-label="Main" class="flex items-center gap-5">
+      <NuxtLink to="/collection" class="text-sm font-bold text-accent underline-offset-2 hover:underline">
+        Collection one
+      </NuxtLink>
       <NuxtLink to="/how-it-works" class="text-sm font-bold text-accent underline-offset-2 hover:underline">
         How it works
       </NuxtLink>

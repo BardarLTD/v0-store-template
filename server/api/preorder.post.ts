@@ -29,14 +29,11 @@ export default defineEventHandler(async (event) => {
     paintingSuffix = `: ${painting.title}`
   }
 
-  // The buyer's description is free text: it is recorded on the order but
-  // never feeds into the price, which comes from the catalogue above.
+  // The buyer's optional note is free text: it is recorded on the order but
+  // never feeds into the price. Full requirements arrive by email.
   let brief = ''
   if (selection.style === 'Bespoke') {
     brief = typeof body?.brief === 'string' ? body.brief.trim().slice(0, 500) : ''
-    if (!brief) {
-      throw createError({ statusCode: 400, message: 'Please describe your painting.' })
-    }
   }
 
   const { company, product } = store
