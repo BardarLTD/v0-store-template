@@ -6,6 +6,7 @@ const LINKS = [
   { to: '/terms', label: 'Terms' },
   { to: '/privacy', label: 'Privacy' },
   { to: '/returns', label: 'Returns' },
+  { to: '/blog', label: 'Blog' },
 ]
 
 const year = new Date().getFullYear()
