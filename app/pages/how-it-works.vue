@@ -7,34 +7,34 @@ const STEPS = [
   {
     title: 'You order',
     text: 'Choose your size, style and frame, and pay at checkout. For a bespoke painting, email your reference photo to hello@cavalletto.com.au after you pay.',
-    time: 'DAY 0',
+    time: 'Day 0',
   },
   {
     title: 'We paint it',
     text: 'Your painting is made to order, by hand, in oil.',
-    time: '1 TO 2 WEEKS',
+    time: '1 to 2 weeks',
   },
   {
     title: 'You see a preview',
     text: 'We send you a photo of your finished painting before it ships. Approve it, or tell us what to change.',
-    time: 'AT THE END OF WEEK 1 TO 2',
+    time: 'At the end of week 1 to 2',
     highlight: true,
   },
   {
     title: 'We ship it',
     text: 'Once you approve your preview, we ship within 2 to 3 business days.',
-    time: '2 TO 3 BUSINESS DAYS',
+    time: '2 to 3 business days',
   },
   {
     title: 'It arrives',
     text: "Free delivery within Australia. Unframed paintings arrive rolled, so you'll need to stretch and frame them locally before hanging.",
-    time: 'ABOUT 1 TO 2 WEEKS',
+    time: 'About 1 to 2 weeks',
   },
 ]
 </script>
 
 <template>
-  <article class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-6 pt-6 pb-14 md:pt-12 md:pb-24">
+  <article class="mx-auto flex w-full max-w-2xl flex-col gap-14 px-6 pt-6 pb-14 md:pt-12 md:pb-24">
     <header class="flex flex-col gap-3">
       <h1 class="text-4xl font-bold tracking-display text-stone-900 text-balance">
         How it works
@@ -44,50 +44,41 @@ const STEPS = [
       </p>
     </header>
 
-    <ol class="relative flex flex-col gap-6 lg:grid lg:grid-cols-5 lg:gap-4">
-      <span aria-hidden="true" class="absolute top-5 bottom-5 left-5 w-[1.5px] -translate-x-1/2 bg-stone-900 lg:hidden" />
-      <span aria-hidden="true" class="absolute top-5 right-[10%] left-[10%] hidden h-[1.5px] -translate-y-1/2 bg-stone-900 lg:block" />
-
+    <ol class="flex flex-col">
       <li
         v-for="(step, index) in STEPS"
         :key="step.title"
-        class="relative flex items-start gap-4 lg:flex-col lg:items-center"
+        class="relative flex gap-6"
       >
         <span
+          v-if="index < STEPS.length - 1"
           aria-hidden="true"
-          class="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full bg-accent font-bold text-white"
-        >
-          {{ index + 1 }}
-        </span>
-        <div
-          class="flex w-full flex-1 flex-col gap-2 rounded-sm bg-card p-5 text-left"
-          :class="step.highlight ? 'border-2 border-accent' : 'border-[1.5px] border-stone-900'"
-        >
-          <span class="sr-only">Step {{ index + 1 }}:</span>
-          <span
-            v-if="step.highlight"
-            class="w-fit rounded-sm bg-terracotta px-2 py-0.5 text-xs font-bold tracking-widest text-white"
-          >
-            YOU APPROVE
-          </span>
-          <h2 class="text-lg font-bold text-stone-900 text-balance">
+          class="absolute top-4 bottom-0 left-[5px] w-[1.5px] bg-stone-900"
+        />
+        <span
+          aria-hidden="true"
+          class="relative mt-1.5 size-3 shrink-0 rounded-full border-[1.5px]"
+          :class="step.highlight ? 'border-terracotta bg-terracotta' : 'border-stone-900 bg-background'"
+        />
+        <div class="flex flex-col gap-1 pb-10">
+          <p class="text-sm italic text-stone-700">
+            <span class="sr-only">Step {{ index + 1 }}, </span>{{ step.time }}
+          </p>
+          <h2 class="text-xl font-bold text-stone-900 text-balance">
             {{ step.title }}
           </h2>
-          <p class="text-sm leading-relaxed text-stone-700">
+          <p class="text-base leading-relaxed text-stone-700 text-pretty">
             {{ step.text }}
-          </p>
-          <p class="mt-auto pt-2 text-xs font-bold tracking-widest text-stone-900">
-            {{ step.time }}
           </p>
         </div>
       </li>
     </ol>
 
-    <section aria-labelledby="total-heading" class="flex flex-col gap-2 rounded-sm border-[1.5px] border-stone-900 bg-card p-6">
+    <section aria-labelledby="total-heading" class="flex flex-col gap-2 border-t-[1.5px] border-stone-900 pt-8">
       <h2 id="total-heading" class="text-xl font-bold text-stone-900">
         How long in total
       </h2>
-      <p class="text-base leading-relaxed text-stone-700">
+      <p class="text-base leading-relaxed text-stone-700 text-pretty">
         About 2 to 4 weeks from order to your door. The time you take to approve your preview is on top of that.
       </p>
     </section>
