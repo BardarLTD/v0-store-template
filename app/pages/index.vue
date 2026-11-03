@@ -99,7 +99,11 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
 <template>
   <section class="mx-auto grid w-full max-w-5xl flex-1 items-start gap-10 px-6 pt-6 pb-12 md:grid-cols-2 md:gap-16 md:pt-12 md:pb-16">
     <div class="flex flex-col gap-3 md:sticky md:top-8">
-      <div v-if="chosenPainting" class="flex items-center justify-center rounded-2xl border border-stone-200 bg-sunk p-6 md:p-8">
+      <div
+        v-if="chosenPainting"
+        class="flex items-center justify-center rounded-2xl border p-6 transition-colors duration-300 motion-reduce:transition-none md:p-8"
+        :class="chosenFrame ? 'border-transparent bg-transparent' : 'border-stone-200 bg-sunk'"
+      >
         <FramedPainting
           :key="chosenPainting.id"
           :src="chosenPainting.image"
