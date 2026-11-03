@@ -1,5 +1,8 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'Terms of Service' })
+useSeoMeta({
+  title: 'Terms of Service',
+  description: 'The terms for ordering a made-to-order painting from Cavalletto.',
+})
 </script>
 
 <template>

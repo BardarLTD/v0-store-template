@@ -1,5 +1,8 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'Privacy Policy' })
+useSeoMeta({
+  title: 'Privacy Policy',
+  description: 'How Cavalletto collects, uses and protects your personal information.',
+})
 </script>
 
 <template>
