@@ -2,6 +2,7 @@
 import { store } from '#shared/store'
 
 const LINKS = [
+  { to: '/how-it-works', label: 'How it works' },
   { to: '/terms', label: 'Terms' },
   { to: '/privacy', label: 'Privacy' },
   { to: '/returns', label: 'Returns' },
