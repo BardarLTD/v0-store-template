@@ -18,7 +18,7 @@
 
     <h2>Hang it without damaging the wall</h2>
 
-    <p>I hung mine with Large Command Hooks from Coles, stuck straight onto the wall, and they worked well. Check two things before you do. First, weigh the frame, because every hook has a limit: each Large Command hook is <a href="https://www.staples.com/command-large-utility-hook-white-17003-es/product_395690">rated for 5 lb</a>, so a heavier frame needs more than one. Second, check the wall surface, because the adhesive needs a smooth, clean, painted surface.</p>
+    <p>I hung mine with Large Command Hooks from Coles, stuck straight onto the wall, and they worked well. Check two things before you do. First, weigh the frame, because every hook has a limit: each Large Command hook is <a href="https://www.staples.com/command-large-utility-hook-white-17003-es/product_395690">rated for 5 lb</a>, so a heavier frame needs more than one. Second, check the wall surface, because the adhesive needs a smooth, clean, painted surface. If your painting arrives rolled, here is <a href="https://cavalletto.com.au/blog/how-to-frame-and-hang-a-rolled-painting">how to frame and hang a rolled painting</a>.</p>
 
     <h2>Where Cavalletto fits</h2>
 

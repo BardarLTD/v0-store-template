@@ -18,7 +18,7 @@
 
     <h2>The part that surprised me</h2>
 
-    <p>I bought the cheapest option, which arrives rolled. It needed a staple gun to stretch onto a frame, and that took more effort than I expected. If you'd rather not, buy it already framed. Next time, I would.</p>
+    <p>I bought the cheapest option, which arrives rolled. It needed a staple gun to stretch onto a frame, and that took more effort than I expected. If you'd rather not, buy it already framed. Next time, I would. I cover the steps in <a href="https://cavalletto.com.au/blog/how-to-frame-and-hang-a-rolled-painting">how to frame and hang a rolled painting</a>, and how long the whole thing takes in <a href="https://cavalletto.com.au/blog/how-long-does-a-custom-oil-painting-take">how long a custom oil painting takes</a>.</p>
 
     <h2>So, is it worth it?</h2>
 
