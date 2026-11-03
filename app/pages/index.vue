@@ -45,15 +45,20 @@ onMounted(() => tracking.viewProduct())
 
 <template>
   <section class="mx-auto grid w-full max-w-5xl flex-1 items-start gap-10 px-6 pt-6 pb-12 md:grid-cols-2 md:gap-16 md:pt-12 md:pb-16">
-    <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white md:sticky md:top-8">
-      <img
-        :src="mainImage"
-        :alt="mainImageAlt"
-        width="1200"
-        height="960"
-        fetchpriority="high"
-        class="aspect-[5/4] w-full origin-[55%_50%] scale-[1.12] object-cover"
-      >
+    <div class="flex flex-col gap-3 md:sticky md:top-8">
+      <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+        <img
+          :src="mainImage"
+          :alt="mainImageAlt"
+          width="1200"
+          height="960"
+          fetchpriority="high"
+          class="aspect-[5/4] w-full origin-[55%_50%] scale-[1.12] object-cover"
+        >
+      </div>
+      <p class="text-xs text-stone-500">
+        Pictured: a sample from the range. For a Bespoke painting, we email you after you order to ask for your idea and any reference images, and send you a photo preview to approve before it ships.
+      </p>
     </div>
 
     <div class="flex flex-col gap-8">
@@ -128,9 +133,6 @@ onMounted(() => tracking.viewProduct())
         </p>
         <p class="max-w-md text-base leading-relaxed text-stone-900">
           A painting makes a home feel like yours. Ours are hand-painted in oil, to order, from a small range of classics or your own idea. They cost more than a print and less than an original. Look closely and the brushwork shows.
-        </p>
-        <p class="text-xs text-stone-500">
-          Pictured: a sample from the range. For a Bespoke painting, we email you after you order to ask for your idea and any reference images, and send you a photo preview to approve before it ships.
         </p>
       </div>
 
