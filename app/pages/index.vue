@@ -44,8 +44,8 @@ onMounted(() => tracking.viewProduct())
 </script>
 
 <template>
-  <section class="mx-auto grid w-full max-w-5xl flex-1 items-center gap-10 px-6 pt-6 pb-12 md:grid-cols-2 md:gap-16 md:pt-12 md:pb-16">
-    <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+  <section class="mx-auto grid w-full max-w-5xl flex-1 items-start gap-10 px-6 pt-6 pb-12 md:grid-cols-2 md:gap-16 md:pt-12 md:pb-16">
+    <div class="overflow-hidden rounded-2xl border border-stone-200 bg-white md:sticky md:top-8">
       <img
         :src="mainImage"
         :alt="mainImageAlt"
