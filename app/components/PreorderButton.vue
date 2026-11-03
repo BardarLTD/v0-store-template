@@ -5,6 +5,7 @@ const props = defineProps<{
   selection: Selection
   price: number
   paintingId?: string
+  frameStyleId?: string
   brief?: string
   disabled?: boolean
 }>()
@@ -46,6 +47,7 @@ async function preorder() {
         size: props.selection.size,
         style: props.selection.style,
         frame: props.selection.frame,
+        ...(props.frameStyleId ? { frameStyle: props.frameStyleId } : {}),
         ...(props.paintingId ? { painting: props.paintingId } : {}),
         ...(props.brief !== undefined ? { brief: props.brief } : {}),
       },

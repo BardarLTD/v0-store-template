@@ -1,4 +1,4 @@
-import { store, priceFor, describeSelection, type Selection } from '#shared/store'
+import { store, priceFor, describeSelection, findFrameStyle, type Selection } from '#shared/store'
 import { paintings, findPainting } from '#shared/catalogue'
 
 /**
@@ -9,7 +9,7 @@ import { paintings, findPainting } from '#shared/catalogue'
  * (with its image) rides on the intent so the checkout can show it.
  */
 export default defineEventHandler(async (event) => {
-  const body = await readBody<Partial<Record<keyof Selection | 'painting' | 'brief', unknown>>>(event).catch(() => null)
+  const body = await readBody<Partial<Record<keyof Selection | 'painting' | 'brief' | 'frameStyle', unknown>>>(event).catch(() => null)
   const selection = {
     size: body?.size,
     style: body?.style,
@@ -29,6 +29,15 @@ export default defineEventHandler(async (event) => {
     paintingSuffix = `: ${painting.title}`
   }
 
+  let frameSuffix = ''
+  if (selection.frame === 'Framed') {
+    const frameStyle = findFrameStyle(body?.frameStyle)
+    if (!frameStyle) {
+      throw createError({ statusCode: 400, message: 'That frame isn’t available. Please choose again.' })
+    }
+    frameSuffix = ` (${frameStyle.label} frame)`
+  }
+
   // The buyer's optional note is free text: it is recorded on the order but
   // never feeds into the price. Full requirements arrive by email.
   let brief = ''
@@ -37,7 +46,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const { company, product } = store
-  const options = `${describeSelection(selection as Selection)}${paintingSuffix}`
+  const options = `${describeSelection(selection as Selection)}${frameSuffix}${paintingSuffix}`
   const intent = await createPaymentIntent(event, {
     name: `${product.name}, ${options}`,
     description: brief
