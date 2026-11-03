@@ -1,5 +1,8 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'Pre-order & Refund Policy' })
+useSeoMeta({
+  title: 'Pre-order and Refund Policy',
+  description: 'What happens if you change your mind or something goes wrong with a made-to-order painting.',
+})
 </script>
 
 <template>
