@@ -75,6 +75,38 @@ export const catalogue: ReadonlyArray<Selection & { price: number }> = [
   { size: '18x24 in', style: 'Bespoke', frame: 'Framed', price: 675 },
 ]
 
+/**
+ * Frame mouldings offered with a framed painting. Placeholder range until the
+ * final frames are confirmed; they don't change the price. `moulding` is the
+ * CSS background used to draw the frame on the product mockup.
+ */
+export const frameStyles = [
+  {
+    id: 'light-oak',
+    label: 'Light oak',
+    detail: 'Pale natural timber',
+    moulding: 'linear-gradient(135deg, #e3c79c 0%, #c9a06a 45%, #dbb98a 70%, #b98d58 100%)',
+  },
+  {
+    id: 'dark-walnut',
+    label: 'Dark walnut',
+    detail: 'Deep brown timber',
+    moulding: 'linear-gradient(135deg, #6b4630 0%, #3f2819 45%, #5a3a26 70%, #2e1d12 100%)',
+  },
+  {
+    id: 'antique-gold',
+    label: 'Antique gold',
+    detail: 'Classic gilded finish',
+    moulding: 'linear-gradient(135deg, #f1d88f 0%, #b98a2f 40%, #ecd080 60%, #9c7023 100%)',
+  },
+] as const
+
+export type FrameStyle = (typeof frameStyles)[number]
+
+export function findFrameStyle(id: unknown): FrameStyle | undefined {
+  return frameStyles.find(style => style.id === id)
+}
+
 /** The catalogue price for a selection, or undefined if it isn't on sale. */
 export function priceFor(selection: { size?: unknown, style?: unknown, frame?: unknown }): number | undefined {
   return catalogue.find(item =>

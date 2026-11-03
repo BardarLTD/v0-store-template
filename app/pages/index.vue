@@ -4,6 +4,9 @@ import {
   formatPrice,
   defaultSelection,
   priceFor,
+  frameStyles,
+  findFrameStyle,
+  type FrameStyle,
   type Selection,
 } from '#shared/store'
 import { paintings, collection, findPainting } from '#shared/catalogue'
@@ -34,6 +37,12 @@ const frameChoices = [
   { value: 'Unframed', label: 'Rolled', detail: 'Posted rolled in a tube, ready for a local framer' },
   { value: 'Framed', label: 'Framed', detail: 'Stretched and framed, ready to hang' },
 ] as const
+
+const frameStyleId = ref<FrameStyle['id']>(frameStyles[0].id)
+const isFramed = computed(() => selection.frame === 'Framed')
+const chosenFrame = computed(() =>
+  isFramed.value ? findFrameStyle(frameStyleId.value) : undefined,
+)
 
 /** Dimensions follow the painting's orientation: landscape reads width first. */
 function sizeDetail(detail: string): string {
@@ -90,16 +99,13 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
 <template>
   <section class="mx-auto grid w-full max-w-5xl flex-1 items-start gap-10 px-6 pt-6 pb-12 md:grid-cols-2 md:gap-16 md:pt-12 md:pb-16">
     <div class="flex flex-col gap-3 md:sticky md:top-8">
-      <div v-if="chosenPainting" class="flex items-center justify-center rounded-2xl border border-stone-200 bg-sunk p-6">
-        <img
+      <div v-if="chosenPainting" class="flex items-center justify-center rounded-2xl border border-stone-200 bg-sunk p-6 md:p-8">
+        <FramedPainting
           :key="chosenPainting.id"
           :src="chosenPainting.image"
-          :alt="chosenPainting.imageAlt"
-          width="960"
-          height="768"
-          fetchpriority="high"
-          class="max-h-[32rem] w-auto max-w-full object-contain"
-        >
+          :alt="chosenFrame ? `${chosenPainting.imageAlt}, shown in a ${chosenFrame.label.toLowerCase()} frame` : chosenPainting.imageAlt"
+          :frame="chosenFrame"
+        />
       </div>
       <div v-else class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
         <img
@@ -203,6 +209,45 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
             <span class="opacity-80">{{ frame.detail }}</span>
           </label>
         </div>
+
+        <Transition
+          enter-active-class="transition duration-200 ease-out motion-reduce:transition-none"
+          enter-from-class="-translate-y-1 opacity-0"
+          leave-active-class="transition duration-150 ease-in motion-reduce:transition-none"
+          leave-to-class="-translate-y-1 opacity-0"
+        >
+          <fieldset v-if="isFramed" class="mt-2 flex flex-col gap-2 rounded-md border border-stone-200 bg-sunk p-4">
+            <legend class="sr-only">
+              Frame style
+            </legend>
+            <p class="text-sm font-bold text-stone-900" aria-hidden="true">
+              Choose your frame
+            </p>
+            <div class="grid grid-cols-3 gap-2">
+              <label
+                v-for="style in frameStyles"
+                :key="style.id"
+                class="flex cursor-pointer flex-col items-center gap-2 rounded-md border-[1.5px] border-transparent px-2 py-3 text-center text-sm text-stone-900 transition-colors duration-150 hover:border-stone-300 has-checked:border-accent has-checked:bg-cream has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent"
+              >
+                <input v-model="frameStyleId" type="radio" name="frame-style" :value="style.id" class="sr-only">
+                <span
+                  aria-hidden="true"
+                  class="frame-swatch flex size-12 items-center justify-center rounded-sm"
+                  :style="{ backgroundImage: style.moulding }"
+                >
+                  <span class="size-6 rounded-[2px] bg-stone-100 shadow-inner" />
+                </span>
+                <span class="flex flex-col">
+                  <span class="font-bold leading-snug">{{ style.label }}</span>
+                  <span class="text-xs text-stone-500">{{ style.detail }}</span>
+                </span>
+              </label>
+            </div>
+            <p class="text-xs leading-relaxed text-stone-500">
+              {{ chosenPainting ? 'The preview shows your painting in the frame you pick.' : 'Your bespoke painting will be framed in the style you pick.' }}
+            </p>
+          </fieldset>
+        </Transition>
       </fieldset>
 
       <div v-if="isBespoke" class="flex flex-col gap-2">
@@ -233,6 +278,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           :selection="selection"
           :price="price"
           :painting-id="chosenPainting?.id"
+          :frame-style-id="chosenFrame?.id"
           :brief="isBespoke ? brief : undefined"
         />
         <p class="max-w-md text-base leading-relaxed text-stone-900">
@@ -263,3 +309,12 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
     <PaintingPicker v-model="paintingId" :paintings="paintings" />
   </section>
 </template>
+
+<style scoped>
+.frame-swatch {
+  box-shadow:
+    inset 1px 1px 2px rgb(255 255 255 / 0.4),
+    inset -1px -1px 2px rgb(0 0 0 / 0.35),
+    0 2px 4px rgb(0 0 0 / 0.2);
+}
+</style>
