@@ -18,10 +18,10 @@ const promises = [
 </script>
 
 <template>
-  <section aria-labelledby="hero-heading" class="mx-auto grid w-full max-w-5xl items-center gap-8 px-6 pt-6! pb-14! md:grid-cols-12 md:gap-12 md:pt-10! md:pb-20!">
-    <div class="flex flex-col gap-7 md:order-first md:col-span-5">
+  <section aria-labelledby="hero-heading" class="mx-auto grid w-full max-w-5xl items-center gap-8 px-6 pt-6! pb-14! md:pt-10! md:pb-20! lg:grid-cols-12 lg:gap-12">
+    <div class="flex flex-col gap-7 lg:order-first lg:col-span-6">
       <div class="flex flex-col gap-5">
-        <h1 id="hero-heading" class="text-5xl leading-[1.02] font-bold tracking-display text-balance md:text-6xl">
+        <h1 id="hero-heading" class="max-w-2xl text-5xl leading-[1.04] font-bold tracking-display text-balance md:text-6xl lg:text-5xl xl:text-[3.5rem]">
           Famous paintings, hand-painted in oil for your home.
         </h1>
         <p class="max-w-md text-lg leading-relaxed text-pretty">
@@ -47,14 +47,14 @@ const promises = [
       </ul>
     </div>
 
-    <figure class="order-first flex flex-col gap-2 md:order-last md:col-span-7">
+    <figure class="order-first flex flex-col gap-2 lg:order-last lg:col-span-6">
       <img
         :src="shot.image"
         :alt="shot.alt"
         width="1024"
         height="1024"
         fetchpriority="high"
-        class="aspect-[4/5] max-h-[78svh] w-full rounded-md object-cover object-[50%_40%] md:aspect-[6/7]"
+        class="aspect-[4/5] max-h-[78svh] w-full rounded-md object-cover object-[50%_40%] md:aspect-[3/2] lg:aspect-[6/7]"
       >
       <figcaption class="flex justify-between gap-4 text-xs">
         <span>{{ shot.room }}</span>
