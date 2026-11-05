@@ -21,6 +21,7 @@ export interface Store {
     registration: string
     address: string
     phone: string
+    instagram: string
   }
   product: {
     name: string
@@ -130,6 +131,7 @@ export const store: Store = {
     registration: 'ABN 61 664 482 384',
     address: '163a Palmer Street, Darlinghurst NSW 2010',
     phone: '0481 263 226',
+    instagram: 'https://instagram.com/cavallettoart',
   },
   product: {
     name: 'Hand-painted oil painting',
@@ -139,7 +141,7 @@ export const store: Store = {
     price: priceFor(defaultSelection)!,
     currency: 'AUD',
     countryCode: 'AU',
-    shipping: 'Made to order. Photo preview within 2 weeks, then ships within 3 business days of your approval. Free delivery within Australia.',
+    shipping: 'Painted after you order. Ships within 3 business days of your approval, free within Australia.',
   },
 }
 

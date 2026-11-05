@@ -1,35 +1,30 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'How Our Paintings Are Made and Delivered',
-  description: 'From order to your wall in about 2 to 4 weeks: painted by hand, a photo preview, then free delivery across Australia.',
+  description: 'From order to your wall in about 3 weeks: painted by hand, a photo preview, then free delivery across Australia.',
 })
 
 const STEPS = [
   {
     title: 'You order',
-    text: 'Choose your size, style and frame, and pay at checkout. For a bespoke painting, email your reference photo to hello@cavalletto.com.au after you pay.',
-    time: 'Day 0',
+    text: 'Choose your painting, size and finish, then pay at checkout. For a bespoke painting, email the image you want painted to hello@cavalletto.com.au after you pay.',
+    time: 'Day 1',
   },
   {
     title: 'We paint it',
-    text: 'Your painting is made to order, by hand, in oil.',
-    time: '1 to 2 weeks',
+    text: 'A trained painter at our partner studio paints your canvas by hand in oil, starting from a blank canvas.',
+    time: 'Week 1 to 2',
   },
   {
     title: 'You see a preview',
-    text: 'We send you a photo of your finished painting before it ships. Approve it, or tell us what to change.',
-    time: 'At the end of week 1 to 2',
+    text: 'We email you a photo of your finished painting. Approve it, or tell us what to change.',
+    time: 'End of week 2',
     highlight: true,
   },
   {
-    title: 'We ship it',
-    text: 'Once you approve your preview, we ship within 2 to 3 business days.',
-    time: '2 to 3 business days',
-  },
-  {
     title: 'It arrives',
-    text: "Free delivery within Australia. Unframed paintings arrive rolled, so you'll need to stretch and frame them locally before hanging.",
-    time: 'About 1 to 2 weeks',
+    text: 'We ship within 3 business days of your approval, free within Australia. Rolled paintings come in a tube, so a framer will need to stretch and frame them before you hang them.',
+    time: 'Around week 3',
   },
 ]
 </script>
@@ -41,7 +36,7 @@ const STEPS = [
         How it works
       </h1>
       <p class="text-base leading-relaxed text-stone-700 text-pretty">
-        Every painting is made to order. Here is what happens after you buy.
+        We paint every canvas after you order. Here&apos;s what happens once you buy.
       </p>
     </header>
 
@@ -80,7 +75,7 @@ const STEPS = [
         How long in total
       </h2>
       <p class="text-base leading-relaxed text-stone-700 text-pretty">
-        About 2 to 4 weeks from order to your door. The time you take to approve your preview is on top of that.
+        About 3 weeks from order to your door, plus however long you take to approve the preview.
       </p>
     </section>
 
@@ -89,7 +84,7 @@ const STEPS = [
         The preview
       </h2>
       <p class="text-base leading-relaxed text-stone-700 text-pretty">
-        You see your painting before it ships. If something is off, tell us what to change and we&apos;ll work with you to put it right. Once you approve it, it ships.
+        Nothing ships until you&apos;ve seen it. If something looks off, tell us what to change and we&apos;ll work with you to fix it. Once you approve the photo, it ships within 3 business days.
       </p>
       <NuxtLink to="/returns" class="w-fit text-accent underline underline-offset-2">
         Read our Pre-order &amp; Refund Policy

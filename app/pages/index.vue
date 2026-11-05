@@ -36,7 +36,7 @@ const sizeChoices = [
 ] as const
 
 const frameChoices = [
-  { value: 'Unframed', label: 'Rolled', detail: 'Posted rolled in a tube, ready for a local framer' },
+  { value: 'Unframed', label: 'Rolled', detail: 'Posted in a tube, for your local framer' },
   { value: 'Framed', label: 'Framed', detail: 'Stretched and framed, ready to hang' },
 ] as const
 
@@ -133,10 +133,10 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
   <section id="lookbook" aria-labelledby="lookbook-heading" class="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pt-4! md:pt-8!">
     <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
       <h2 id="lookbook-heading" class="max-w-lg text-4xl font-bold tracking-display text-balance md:text-5xl">
-        Rooms worth coming home to.
+        How they look at home.
       </h2>
       <p class="max-w-sm text-base leading-relaxed text-pretty">
-        The rug, the lamp, the books you keep. A real painting is often what pulls it together. Tap any room to choose the painting in it.
+        We chose every painting in Collection one with a real room in mind. Here are a few of them on the wall. Tap a room to choose the painting in it.
       </p>
     </div>
     <LookbookGrid :shots="roomShots" @choose="chooseFromLookbook" />
@@ -169,7 +169,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
       </div>
       <p class="text-xs leading-relaxed">
         <template v-if="chosenPainting">
-          Reference image of the original. Each reproduction is painted by hand, so small variations are part of the piece.
+          Photo of the original. Yours is painted by hand, so expect small differences.
         </template>
         <template v-else>
           Pictured: a bespoke commission. Yours is painted from your own reference, and you approve a photo preview before it ships.
@@ -178,14 +178,9 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
     </div>
 
     <div class="flex flex-col gap-8">
-      <div class="flex flex-col gap-3">
-        <p class="text-xs font-bold uppercase tracking-label text-terracotta">
-          Order yours
-        </p>
-        <h2 id="order-heading" class="text-4xl font-bold tracking-display text-balance md:text-5xl">
-          {{ product.name }}
-        </h2>
-      </div>
+      <h2 id="order-heading" class="text-4xl font-bold tracking-display text-balance md:text-5xl">
+        {{ product.name }}
+      </h2>
 
       <fieldset class="flex flex-col gap-3">
         <legend class="mb-2 text-sm font-bold text-stone-900">
@@ -195,7 +190,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           <label :class="choiceClass">
             <input v-model="selection.style" type="radio" name="style" value="Curated" class="sr-only">
             <span class="font-bold">{{ collection.name }}</span>
-            <span class="opacity-80">Pick from our curated range</span>
+            <span class="opacity-80">Choose from our 18</span>
           </label>
           <label :class="choiceClass">
             <input v-model="selection.style" type="radio" name="style" value="Bespoke" class="sr-only">
@@ -241,7 +236,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           </label>
         </div>
         <p v-if="chosenPainting" class="text-xs leading-relaxed text-stone-500">
-          Each painting is adapted by hand to fit the canvas you choose, so nothing important is lost.
+          The painter adjusts the composition slightly to fit your canvas, so nothing important gets cut.
         </p>
         <p v-else class="text-xs leading-relaxed text-stone-500">
           Need a different size? <a :href="quoteHref" class="font-bold text-accent underline underline-offset-2">Email us before you order</a> and we&apos;ll quote you.
@@ -331,8 +326,9 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           :frame-style-id="chosenFrame?.id"
           :brief="isBespoke ? brief : undefined"
         />
+        <PaymentLogos />
         <p class="max-w-md text-base leading-relaxed text-stone-900">
-          Hand-painted in oil on canvas, to order. They cost more than a print and less than an original. Look closely and the brushwork shows.
+          Painted by hand in oil on canvas, after you order. It costs more than a print and far less than an original. Up close, you can see the brushstrokes.
         </p>
       </div>
 
@@ -341,7 +337,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           Delivery
         </h2>
         <p class="max-w-md text-base leading-relaxed text-stone-900">
-          Free delivery within Australia. Rolled paintings are posted in a tube, so you&apos;ll need to stretch and frame them locally before hanging. Framed paintings arrive ready to hang. Either way, you approve a photo preview before your painting ships.
+          Allow about 3 weeks from order to your door. Delivery is free within Australia. Framed paintings arrive ready to hang. Rolled paintings come in a tube, and a framer will need to stretch and frame them before they go up. Either way, you approve a photo first, and we ship within 3 business days of your OK.
         </p>
       </section>
     </div>
@@ -353,11 +349,15 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
         {{ collection.name }}
       </h2>
       <p class="max-w-xl text-base leading-relaxed text-stone-900">
-        {{ collection.intro }} Tap one to choose it.
+        Eighteen classics, picked for how they look in a home. Each one is painted by hand in oil after you order. Tap a painting to choose it.
       </p>
     </div>
     <PaintingPicker v-model="paintingId" :paintings="paintings" @chosen="scrollToOptions" />
   </section>
+
+  <HomeAbout />
+
+  <HomeFaq />
 </template>
 
 <style scoped>
