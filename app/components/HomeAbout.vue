@@ -2,7 +2,6 @@
 import { store } from '#shared/store'
 
 const { company, product } = store
-const phoneHref = `tel:+61${company.phone.replace(/\s/g, '').replace(/^0/, '')}`
 </script>
 
 <template>
@@ -27,7 +26,7 @@ const phoneHref = `tel:+61${company.phone.replace(/\s/g, '').replace(/^0/, '')}`
       </h2>
       <div class="flex max-w-lg flex-col gap-4 text-base leading-relaxed text-pretty">
         <p>
-          I&apos;m Tom, and I run Cavalletto from Darlinghurst in Sydney. I choose the paintings and look after every order. If you email or call, you&apos;ll get me.
+          I&apos;m Tom, and I run Cavalletto from Darlinghurst in Sydney. I choose the paintings and look after every order. If you email, you&apos;ll get me.
         </p>
         <p>
           The painting is done by a studio of trained artists in China that I work with directly. Copying classic paintings in oil is their speciality, and they&apos;ve been doing it for years. Working with them is how I can sell a hand-painted oil from A$300. I check every canvas against the original before you see your preview.
@@ -37,10 +36,6 @@ const phoneHref = `tel:+61${company.phone.replace(/\s/g, '').replace(/^0/, '')}`
         <li>
           <span class="font-bold">Email:</span>
           <a :href="`mailto:${company.email}`" class="underline underline-offset-2">{{ company.email }}</a>
-        </li>
-        <li>
-          <span class="font-bold">Phone:</span>
-          <a :href="phoneHref" class="underline underline-offset-2">{{ company.phone }}</a>
         </li>
         <li>
           <span class="font-bold">Instagram:</span>

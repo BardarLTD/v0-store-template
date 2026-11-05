@@ -349,7 +349,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
         {{ collection.name }}
       </h2>
       <p class="max-w-xl text-base leading-relaxed text-stone-900">
-        Eighteen public-domain classics, picked for how they look in a home. Each one is painted by hand in oil after you order. Tap a painting to choose it.
+        Eighteen classics, picked for how they look in a home. Each one is painted by hand in oil after you order. Tap a painting to choose it.
       </p>
     </div>
     <PaintingPicker v-model="paintingId" :paintings="paintings" @chosen="scrollToOptions" />

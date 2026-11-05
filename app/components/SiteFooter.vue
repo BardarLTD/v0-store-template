@@ -20,7 +20,6 @@ const draperHref = useDraperLink('footer')
       <span>ABN 61 664 482 384</span>
       <span>163a Palmer Street, Darlinghurst NSW 2010</span>
       <a href="mailto:hello@cavalletto.com.au" class="w-fit underline underline-offset-2 hover:text-stone-900">hello@cavalletto.com.au</a>
-      <a href="tel:+61481263226" class="w-fit underline underline-offset-2 hover:text-stone-900">0481 263 226</a>
       <a :href="store.company.instagram" target="_blank" rel="noopener" class="mt-1 inline-flex w-fit items-center gap-2 underline underline-offset-2 hover:text-stone-900">
         <img src="/instagram.svg" alt="" width="16" height="16" class="size-4">
         @cavallettoart on Instagram

@@ -28,7 +28,7 @@ useHead({
       <p class="text-base leading-relaxed text-pretty">
         Question not answered here? Email
         <a href="mailto:hello@cavalletto.com.au" class="underline underline-offset-2">hello@cavalletto.com.au</a>
-        or call <a href="tel:0481263226" class="underline underline-offset-2">0481 263 226</a>, and you&apos;ll hear back from Tom in Sydney.
+        and you&apos;ll hear back from Tom in Sydney.
       </p>
     </div>
     <div class="flex flex-col md:col-span-8">

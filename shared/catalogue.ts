@@ -22,7 +22,7 @@ export interface Painting {
 
 export const collection = {
   name: 'Collection one',
-  intro: 'Eighteen public-domain classics, picked for how they look in a home. Each one is painted by hand in oil after you order.',
+  intro: 'Eighteen classics, picked for how they look in a home. Each one is painted by hand in oil after you order.',
 }
 
 export const feels: Record<Feel, string> = {
