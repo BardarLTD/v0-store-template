@@ -29,12 +29,16 @@ export default defineEventHandler(async (event) => {
   }
 
   let paintingSuffix = ''
+  // Bespoke orders show the store's sample image; curated orders show the
+  // painting the buyer picked.
+  let checkoutImage = store.product.image
   if (selection.style === 'Curated' && paintings.length > 0) {
     const painting = findPainting(body?.painting)
     if (!painting) {
       throw createError({ statusCode: 400, message: 'That painting isn’t available. Please choose again.' })
     }
     paintingSuffix = `: ${painting.title}`
+    checkoutImage = painting.image
     orderDetails.artwork = painting.title
     orderDetails.artwork_id = painting.id
   }
@@ -67,7 +71,7 @@ export default defineEventHandler(async (event) => {
     metadata: brief ? { ...orderDetails, description: brief } : orderDetails,
     price,
     currency: product.currency,
-    imageUrl: checkoutImageUrl(event, product.image),
+    imageUrl: checkoutImageUrl(event, checkoutImage),
     url: absoluteUrl(event, '/'),
   })
 
