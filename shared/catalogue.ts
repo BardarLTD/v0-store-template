@@ -15,7 +15,7 @@ export interface Painting {
   /** One line on the settings it suits best. */
   suits: string
   originalLocation: string
-  /** Public image link. */
+  /** Path under `public/`, served from the site itself. */
   image: string
   imageAlt: string
 }
@@ -32,8 +32,6 @@ export const feels: Record<Feel, string> = {
   graphic: 'Graphic',
 }
 
-const commons = (path: string) => `https://upload.wikimedia.org/wikipedia/commons/${path}`
-
 export const paintings: Painting[] = [
   {
     id: 'klimt-music',
@@ -46,7 +44,7 @@ export const paintings: Painting[] = [
     description: 'A woman in black plays a golden lyre between carved stone figures. An early Klimt, with the gold that made him famous.',
     suits: 'A living room or music room that wants a touch of gold.',
     originalLocation: 'Neue Pinakothek, Munich',
-    image: commons('thumb/f/f7/Klimt_-_Musik1.jpeg/960px-Klimt_-_Musik1.jpeg'),
+    image: '/paintings/klimt-music.jpg',
     imageAlt: 'Gustav Klimt, Music I: a woman in black playing a golden lyre',
   },
   {
@@ -60,7 +58,7 @@ export const paintings: Painting[] = [
     description: 'Red poppies scattered down a summer slope, with a woman and child walking under a parasol.',
     suits: 'A country kitchen or guest room that should feel like summer.',
     originalLocation: 'Musée d\'Orsay, Paris',
-    image: commons('thumb/8/89/Claude_Monet_-_Poppy_Field_-_Google_Art_Project.jpg/960px-Claude_Monet_-_Poppy_Field_-_Google_Art_Project.jpg'),
+    image: '/paintings/monet-poppy-field.jpg',
     imageAlt: 'Claude Monet, Poppy Field: red poppies on a summer slope',
   },
   {
@@ -74,7 +72,7 @@ export const paintings: Painting[] = [
     description: 'White blossom against a turquoise sky, painted to celebrate the birth of Van Gogh\'s nephew.',
     suits: 'A nursery or bedroom with soft blue or white walls.',
     originalLocation: 'Van Gogh Museum, Amsterdam',
-    image: commons('thumb/6/68/Vincent_van_Gogh_-_Almond_blossom_-_Google_Art_Project.jpg/960px-Vincent_van_Gogh_-_Almond_blossom_-_Google_Art_Project.jpg'),
+    image: '/paintings/van-gogh-almond-blossom.jpg',
     imageAlt: 'Vincent van Gogh, Almond Blossom: white blossom on a turquoise sky',
   },
   {
@@ -88,7 +86,7 @@ export const paintings: Painting[] = [
     description: 'Soft pinks, yellows and looping shapes from one of the first abstract painters, years before Kandinsky.',
     suits: 'A modern living room that needs a warm, colorful centerpiece.',
     originalLocation: 'Hilma af Klint Foundation, Stockholm',
-    image: commons('6/62/Hilma_af_Klint_-_The_Ten_Largest_No._7_-_Adulthood_-_1907.jpg'),
+    image: '/paintings/af-klint-ten-largest-no-7.jpg',
     imageAlt: 'Hilma af Klint, The Ten Largest No. 7: pink and yellow looping shapes',
   },
   {
@@ -102,7 +100,7 @@ export const paintings: Painting[] = [
     description: 'A castle built from colored squares and triangles under a round red sun.',
     suits: 'A home office or child\'s room, for something playful and geometric.',
     originalLocation: 'Private collection',
-    image: commons('thumb/b/bf/Burg_und_Sonne_-_Klee.jpg/960px-Burg_und_Sonne_-_Klee.jpg'),
+    image: '/paintings/klee-castle-and-sun.jpg',
     imageAlt: 'Paul Klee, Castle and Sun: colored squares and triangles under a red sun',
   },
   {
@@ -116,7 +114,7 @@ export const paintings: Painting[] = [
     description: 'A bright yellow cow leaps through hills of blue and red.',
     suits: 'A kitchen or playroom that could use some fun.',
     originalLocation: 'Guggenheim Museum, New York',
-    image: commons('f/fd/Franz_Marc-The_Yellow_Cow-1911.jpg'),
+    image: '/paintings/marc-yellow-cow.jpg',
     imageAlt: 'Franz Marc, The Yellow Cow: a yellow cow leaping through blue and red hills',
   },
   {
@@ -130,7 +128,7 @@ export const paintings: Painting[] = [
     description: 'Four autumn trees stand in a row against a striped sunset sky.',
     suits: 'Above a bed or sideboard, where the row of trees reads as one calm band.',
     originalLocation: 'Belvedere, Vienna',
-    image: commons('thumb/e/eb/Egon_Schiele_-_Vier_B%C3%A4ume_-_3917_-_%C3%96sterreichische_Galerie_Belvedere.jpg/960px-Egon_Schiele_-_Vier_B%C3%A4ume_-_3917_-_%C3%96sterreichische_Galerie_Belvedere.jpg'),
+    image: '/paintings/schiele-four-trees.jpg',
     imageAlt: 'Egon Schiele, Four Trees: four autumn trees against a striped sunset',
   },
   {
@@ -144,7 +142,7 @@ export const paintings: Painting[] = [
     description: 'The Thames and Charing Cross Bridge painted in hot pinks, yellows and blues.',
     suits: 'A hallway or study, for London in hot pinks and blues.',
     originalLocation: 'National Gallery of Art, Washington',
-    image: commons('0/05/Derain_CharingCrossBridge.png'),
+    image: '/paintings/derain-charing-cross-bridge.jpg',
     imageAlt: 'André Derain, Charing Cross Bridge: the Thames in pinks, yellows and blues',
   },
   {
@@ -158,7 +156,7 @@ export const paintings: Painting[] = [
     description: 'Pink cliffs and a turquoise sea on the Italian coast, built from small dabs of pure color.',
     suits: 'A sunny hallway or a beach-house living room.',
     originalLocation: 'Wallraf-Richartz-Museum, Cologne',
-    image: commons('e/ee/Paul_Signac_-_Capo_di_Noli.jpg'),
+    image: '/paintings/signac-capo-di-noli.jpg',
     imageAlt: 'Paul Signac, Capo di Noli: pink cliffs above a turquoise sea',
   },
   {
@@ -172,7 +170,7 @@ export const paintings: Painting[] = [
     description: 'A riverside inn standing in floodwater under a wide gray-blue sky.',
     suits: 'A cottage kitchen or reading nook with soft, muted colors.',
     originalLocation: 'Musée d\'Orsay, Paris',
-    image: commons('a/a3/Sisley%2C_Alfred_-_L%27Inondation_%C3%A0_Port-Marly_RF_2020.jpg'),
+    image: '/paintings/sisley-flood-at-port-marly.jpg',
     imageAlt: 'Alfred Sisley, Flood at Port-Marly: an inn in floodwater under a gray-blue sky',
   },
   {
@@ -186,7 +184,7 @@ export const paintings: Painting[] = [
     description: 'Wind trails zigzag across the still blue water of a Finnish lake.',
     suits: 'A calm bedroom or a living room with pale wood and linen.',
     originalLocation: 'National Gallery, London',
-    image: commons('thumb/9/94/Akseli_Gallen-Kallela_-_Lake_Keitele%2C_1905.JPG/960px-Akseli_Gallen-Kallela_-_Lake_Keitele%2C_1905.JPG'),
+    image: '/paintings/gallen-kallela-lake-keitele.jpg',
     imageAlt: 'Akseli Gallen-Kallela, Lake Keitele: wind trails on a still blue lake',
   },
   {
@@ -200,7 +198,7 @@ export const paintings: Painting[] = [
     description: 'Three figures sit on a rock and watch the moon rise over a calm sea.',
     suits: 'A bedroom or reading corner, for something moody but gentle.',
     originalLocation: 'Alte Nationalgalerie, Berlin',
-    image: commons('thumb/0/01/Caspar_David_Friedrich_-_Mondaufgang_am_Meer_-_Google_Art_Project.jpg/960px-Caspar_David_Friedrich_-_Mondaufgang_am_Meer_-_Google_Art_Project.jpg'),
+    image: '/paintings/friedrich-moonrise-over-the-sea.jpg',
     imageAlt: 'Caspar David Friedrich, Moonrise over the Sea: three figures on a rock at moonrise',
   },
   {
@@ -214,7 +212,7 @@ export const paintings: Painting[] = [
     description: 'The Thames at night in teal and gold, with fireworks drifting down behind the bridge.',
     suits: 'A dark-painted study or bedroom, where the teal and gold glow.',
     originalLocation: 'Tate Britain, London',
-    image: commons('thumb/d/d6/James_McNeill_Whistler_-_Nocturne_en_bleu_et_or.jpg/960px-James_McNeill_Whistler_-_Nocturne_en_bleu_et_or.jpg'),
+    image: '/paintings/whistler-nocturne-blue-and-gold.jpg',
     imageAlt: 'James McNeill Whistler, Nocturne: Old Battersea Bridge at night in teal and gold',
   },
   {
@@ -228,7 +226,7 @@ export const paintings: Painting[] = [
     description: 'A lion feeds in a dense, dreamlike jungle of oversized leaves and flowers.',
     suits: 'A dining room or dark green wall that can take a bold jungle scene.',
     originalLocation: 'Metropolitan Museum of Art, New York',
-    image: commons('thumb/6/60/The_Repast_of_the_Lion_MET_DT50.jpg/960px-The_Repast_of_the_Lion_MET_DT50.jpg'),
+    image: '/paintings/rousseau-repast-of-the-lion.jpg',
     imageAlt: 'Henri Rousseau, The Repast of the Lion: a lion in a dense jungle',
   },
   {
@@ -242,7 +240,7 @@ export const paintings: Painting[] = [
     description: 'A bouquet in glowing color that seems to float against a soft, warm ground.',
     suits: 'A bedroom or dressing room, as a softer take on the flower print.',
     originalLocation: 'Cleveland Museum of Art',
-    image: commons('thumb/c/c1/Odilon_Redon_-_Vase_of_Flowers_-_1935.233_-_Cleveland_Museum_of_Art.tif/lossy-page1-960px-Odilon_Redon_-_Vase_of_Flowers_-_1935.233_-_Cleveland_Museum_of_Art.tif.jpg'),
+    image: '/paintings/redon-vase-of-flowers.jpg',
     imageAlt: 'Odilon Redon, Vase of Flowers: a glowing bouquet on a warm ground',
   },
   {
@@ -256,7 +254,7 @@ export const paintings: Painting[] = [
     description: 'A quiet street front in Delft, with women at work in the doorway and the alley beside it.',
     suits: 'A kitchen or hallway, for quiet, everyday Dutch calm.',
     originalLocation: 'Rijksmuseum, Amsterdam',
-    image: commons('thumb/2/2b/Johannes_Vermeer_-_Gezicht_op_huizen_in_Delft%2C_bekend_als_%27Het_straatje%27_-_Google_Art_Project.jpg/960px-Johannes_Vermeer_-_Gezicht_op_huizen_in_Delft%2C_bekend_als_%27Het_straatje%27_-_Google_Art_Project.jpg'),
+    image: '/paintings/vermeer-little-street.jpg',
     imageAlt: 'Johannes Vermeer, The Little Street: a brick house front in Delft',
   },
   {
@@ -270,7 +268,7 @@ export const paintings: Painting[] = [
     description: 'A small heap of wild strawberries on a stone ledge against a dark background.',
     suits: 'A kitchen or breakfast nook, hung at eye level.',
     originalLocation: 'Mauritshuis, The Hague',
-    image: commons('thumb/8/8b/Adriaen_Coorte_-_Still_Life_with_Wild_Strawberries_-_1106_-_Mauritshuis.jpg/960px-Adriaen_Coorte_-_Still_Life_with_Wild_Strawberries_-_1106_-_Mauritshuis.jpg'),
+    image: '/paintings/coorte-wild-strawberries.jpg',
     imageAlt: 'Adriaen Coorte, Still Life with Wild Strawberries: strawberries on a stone ledge',
   },
   {
@@ -284,7 +282,7 @@ export const paintings: Painting[] = [
     description: 'A spray of flowers glowing out of a dark background, by one of the best-paid painters of her day.',
     suits: 'A dark-painted dining room or study, where the flowers seem to glow.',
     originalLocation: 'Rijksmuseum, Amsterdam',
-    image: commons('thumb/6/60/Rachel_Ruysch_-_Still_life_with_flowers_on_a_marble_tabletop.jpg/960px-Rachel_Ruysch_-_Still_life_with_flowers_on_a_marble_tabletop.jpg'),
+    image: '/paintings/ruysch-flowers-marble-tabletop.jpg',
     imageAlt: 'Rachel Ruysch, Still Life with Flowers on a Marble Tabletop: flowers against a dark ground',
   },
 ]
