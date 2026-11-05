@@ -20,7 +20,7 @@ const METHODS = [
       </li>
     </ul>
     <p class="text-xs leading-relaxed text-stone-500">
-      Secure checkout by Airwallex. Your card details never touch our site.
+      Airwallex handles payment, so your card details never reach our site.
     </p>
   </div>
 </template>

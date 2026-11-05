@@ -17,25 +17,20 @@ const phoneHref = `tel:+61${company.phone.replace(/\s/g, '').replace(/^0/, '')}`
         class="aspect-[4/5] w-full rounded-md object-cover"
       >
       <figcaption class="text-xs leading-relaxed">
-        A recent commission, photographed in the studio before framing. Real photo, not a mock-up.
+        A recent commission, photographed at the studio before framing. Real photo, not a mock-up.
       </figcaption>
     </figure>
 
     <div class="flex flex-col gap-6 md:col-span-7">
-      <div class="flex flex-col gap-3">
-        <p class="text-xs font-bold uppercase tracking-label text-terracotta">
-          Who we are
-        </p>
-        <h2 id="about-heading" class="text-4xl font-bold tracking-display text-balance md:text-5xl">
-          A small Sydney business, with real painters behind it.
-        </h2>
-      </div>
+      <h2 id="about-heading" class="text-4xl font-bold tracking-display text-balance md:text-5xl">
+        Run from Sydney, painted by specialists in China.
+      </h2>
       <div class="flex max-w-lg flex-col gap-4 text-base leading-relaxed text-pretty">
         <p>
-          Cavalletto is run from Darlinghurst in Sydney. We choose the paintings, look after every order and answer every email ourselves.
+          I&apos;m Tom, and I run Cavalletto from Darlinghurst in Sydney. I choose the paintings and look after every order. If you email or call, you&apos;ll get me.
         </p>
         <p>
-          The painting itself is done by a studio of trained artists in China we work with directly. They have spent years copying the classics in oil, and it&apos;s how we keep the price well under what an original costs. Every canvas is checked against the reference before you see your preview.
+          The painting is done by a studio of trained artists in China that I work with directly. Copying classic paintings in oil is their speciality, and they&apos;ve been doing it for years. Working with them is how I can sell a hand-painted oil from A$300. I check every canvas against the original before you see your preview.
         </p>
       </div>
       <ul class="flex flex-col gap-2 border-t-[1.5px] border-line pt-5 text-sm [&_.font-bold]:mr-1">

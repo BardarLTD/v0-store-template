@@ -141,7 +141,7 @@ export const store: Store = {
     price: priceFor(defaultSelection)!,
     currency: 'AUD',
     countryCode: 'AU',
-    shipping: 'Made to order. Delivered in about 3 weeks, free within Australia.',
+    shipping: 'Painted after you order. Ships within 3 business days of your approval, free within Australia.',
   },
 }
 
