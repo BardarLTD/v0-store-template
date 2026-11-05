@@ -139,7 +139,7 @@ export const store: Store = {
     price: priceFor(defaultSelection)!,
     currency: 'AUD',
     countryCode: 'AU',
-    shipping: 'Made to order. Preview photo within 1 to 2 weeks, then delivery in 1 to 2 weeks. Free delivery within Australia.',
+    shipping: 'Made to order. Photo preview within 2 weeks, then ships within 3 business days of your approval. Free delivery within Australia.',
   },
 }
 

@@ -25,8 +25,8 @@ useSeoMeta({
         refund.
       </li>
       <li>
-        <strong>Delivery:</strong> we ship within Australia only. Your order ships by the date on its
-        product page, which is 2 to 3 business days after you approve your preview.
+        <strong>Delivery:</strong> we ship within Australia only. You get a photo preview within 2
+        weeks of ordering, and your order ships within 3 business days of you approving it.
       </li>
     </ul>
 
@@ -36,10 +36,9 @@ useSeoMeta({
       checkout before you pay. You'll get a tracking link by email when your order ships.
     </p>
     <p>
-      Every painting is made to order. Its product page shows the date it ships by, and your order
-      ships by that date. As a guide, your preview usually reaches you about 1 to 2 weeks after you
-      order. Once you approve it, we ship within 2 to 3 business days, and delivery takes about a
-      week.
+      Every painting is made to order. We email you a photo preview within 2 weeks of your order
+      (usually sooner), and we ship within 3 business days of you approving it. Delivery then takes
+      about a week. The time you take to approve the preview adds to this.
     </p>
     <p>
       Your order is our responsibility until it's delivered. If your parcel is lost or arrives
@@ -48,8 +47,8 @@ useSeoMeta({
 
     <h2>Pre-orders</h2>
     <p>
-      Because we make each painting after you order, you pay the full price at checkout and we ship by
-      the date on the product page.
+      Because we make each painting after you order, you pay the full price at checkout. Your preview
+      arrives within 2 weeks of your order, and we ship within 3 business days of your approval.
     </p>
     <ul class="flex list-disc flex-col gap-2 pl-6">
       <li>
@@ -57,8 +56,8 @@ useSeoMeta({
         supplier can't make it, we'll cancel your order and refund you in full.
       </li>
       <li>
-        <strong>If it's delayed:</strong> if we can't ship by the date shown, we'll email you before
-        that date with a new date. You can then wait or cancel for a full refund. If the new date is
+        <strong>If it's delayed:</strong> if we can't send your preview or ship your order within
+        those times, we'll email you before the deadline with a new date. You can then wait or cancel for a full refund. If the new date is
         more than 30 days after the original one, or we can't give a new date, we'll cancel your order
         and refund you, unless you tell us you want to wait. If it's delayed again, we'll ask you
         again.
