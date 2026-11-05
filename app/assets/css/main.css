@@ -2,7 +2,7 @@
 
 /*
  * The Cavalletto look, as Tailwind tokens: Fraunces headings over Figtree
- * body, a flat cream ground with walnut text and thin walnut borders, indigo
+ * body, a light paper-white ground with walnut text and thin walnut borders, indigo
  * for actions and terracotta in small touches only. No shadows. Retheme the
  * whole site here, not in the pages.
  */
@@ -12,8 +12,8 @@
 
   /* Walnut, emitted under Tailwind's `stone` names: light steps for rules,
      the full walnut for every text step. */
-  --color-stone-50: #F5EEDC;
-  --color-stone-100: #F5EEDC;
+  --color-stone-50: #FBFAF7;
+  --color-stone-100: #FBFAF7;
   --color-stone-200: #4A3322;
   --color-stone-300: #4A3322;
   --color-stone-400: #4A3322;
@@ -25,15 +25,15 @@
   --color-stone-950: #4A3322;
 
   /* Button text and the photo's frame sit on cream, not pure white. */
-  --color-white: #F5EEDC;
+  --color-white: #FBFAF7;
 
-  /* The paper stack: page ground, card, recessed well — all flat cream. */
-  --color-cream: #F5EEDC;
-  --color-card: #F5EEDC;
-  --color-sunk: #F5EEDC;
+  /* The paper stack: page ground, card, recessed well — near-white, with a soft stone well. */
+  --color-cream: #FBFAF7;
+  --color-card: #FFFFFF;
+  --color-sunk: #F3F0EA;
 
   /* A soft walnut tint for quiet dividers and unselected choices. */
-  --color-line: color-mix(in srgb, #4A3322 22%, #F5EEDC);
+  --color-line: color-mix(in srgb, #4A3322 16%, #FBFAF7);
 
   /* Primary (indigo) and its states. */
   --color-accent: #2F3E7A;

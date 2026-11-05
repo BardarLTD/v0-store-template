@@ -6,11 +6,11 @@ const steps = [
   },
   {
     title: 'Approve',
-    body: 'A painter copies it by hand in oil. Within two weeks we email you a photo of the finished canvas to approve.',
+    body: 'A trained painter at our partner studio copies it by hand in oil. We email you a photo of the finished canvas to approve before it ships.',
   },
   {
     title: 'Hang',
-    body: 'It ships within three business days of your approval, with free delivery anywhere in Australia.',
+    body: 'It arrives about three weeks after you order, with free delivery anywhere in Australia.',
   },
 ]
 </script>

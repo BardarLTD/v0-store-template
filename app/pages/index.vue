@@ -331,6 +331,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           :frame-style-id="chosenFrame?.id"
           :brief="isBespoke ? brief : undefined"
         />
+        <PaymentLogos />
         <p class="max-w-md text-base leading-relaxed text-stone-900">
           Hand-painted in oil on canvas, to order. They cost more than a print and less than an original. Look closely and the brushwork shows.
         </p>
@@ -341,7 +342,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           Delivery
         </h2>
         <p class="max-w-md text-base leading-relaxed text-stone-900">
-          Free delivery within Australia. Rolled paintings are posted in a tube, so you&apos;ll need to stretch and frame them locally before hanging. Framed paintings arrive ready to hang. Either way, you approve a photo preview before your painting ships.
+          About 3 weeks from order to your door, with free delivery within Australia. Rolled paintings are posted in a tube, so you&apos;ll need to stretch and frame them locally before hanging. Framed paintings arrive ready to hang. Either way, you approve a photo preview before your painting ships.
         </p>
       </section>
     </div>
@@ -358,6 +359,10 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
     </div>
     <PaintingPicker v-model="paintingId" :paintings="paintings" @chosen="scrollToOptions" />
   </section>
+
+  <HomeAbout />
+
+  <HomeFaq />
 </template>
 
 <style scoped>

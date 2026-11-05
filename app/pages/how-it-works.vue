@@ -1,35 +1,30 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'How Our Paintings Are Made and Delivered',
-  description: 'From order to your wall in about 2 to 4 weeks: painted by hand, a photo preview, then free delivery across Australia.',
+  description: 'From order to your wall in about 3 weeks: painted by hand, a photo preview, then free delivery across Australia.',
 })
 
 const STEPS = [
   {
     title: 'You order',
     text: 'Choose your size, style and frame, and pay at checkout. For a bespoke painting, email your reference photo to hello@cavalletto.com.au after you pay.',
-    time: 'Day 0',
+    time: 'Day 1',
   },
   {
     title: 'We paint it',
-    text: 'Your painting is made to order, by hand, in oil.',
-    time: '1 to 2 weeks',
+    text: 'A trained painter at our partner studio paints your canvas by hand, in oil, from scratch.',
+    time: 'Week 1 to 2',
   },
   {
     title: 'You see a preview',
     text: 'We send you a photo of your finished painting before it ships. Approve it, or tell us what to change.',
-    time: 'At the end of week 1 to 2',
+    time: 'End of week 2',
     highlight: true,
-  },
-  {
-    title: 'We ship it',
-    text: 'Once you approve your preview, we ship within 2 to 3 business days.',
-    time: '2 to 3 business days',
   },
   {
     title: 'It arrives',
     text: "Free delivery within Australia. Unframed paintings arrive rolled, so you'll need to stretch and frame them locally before hanging.",
-    time: 'About 1 to 2 weeks',
+    time: 'Around week 3',
   },
 ]
 </script>
@@ -80,7 +75,7 @@ const STEPS = [
         How long in total
       </h2>
       <p class="text-base leading-relaxed text-stone-700 text-pretty">
-        About 2 to 4 weeks from order to your door. The time you take to approve your preview is on top of that.
+        About 3 weeks from order to your door. The time you take to approve your preview is on top of that.
       </p>
     </section>
 

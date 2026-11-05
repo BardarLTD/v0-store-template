@@ -18,6 +18,9 @@ import { store } from '#shared/store'
       <NuxtLink to="/how-it-works" class="text-sm font-bold text-accent underline-offset-2 hover:underline">
         How it works
       </NuxtLink>
+      <NuxtLink to="/#faq" class="text-sm font-bold text-accent underline-offset-2 hover:underline">
+        FAQ
+      </NuxtLink>
     </nav>
   </header>
 </template>

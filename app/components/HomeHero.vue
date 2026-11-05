@@ -12,7 +12,8 @@ const emit = defineEmits<{ choose: [paintingId: string] }>()
 const promises = [
   'Painted by hand in oil on canvas',
   'Approve a photo before it ships',
-  'Free delivery across Australia',
+  'Delivered free in about 3 weeks',
+  'A small Sydney business you can call',
 ]
 </script>
 
@@ -21,7 +22,7 @@ const promises = [
     <div class="flex flex-col gap-7 md:order-first md:col-span-5">
       <div class="flex flex-col gap-5">
         <p class="text-xs font-bold uppercase tracking-label text-terracotta">
-          Oil paintings, made to order
+          Darlinghurst, Sydney · Oil paintings to order
         </p>
         <h1 id="hero-heading" class="text-5xl leading-[1.02] font-bold tracking-display text-balance md:text-6xl">
           The piece that finishes the room.
