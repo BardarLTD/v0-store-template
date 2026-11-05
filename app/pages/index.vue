@@ -10,6 +10,7 @@ import {
   type Selection,
 } from '#shared/store'
 import { paintings, collection, findPainting } from '#shared/catalogue'
+import { rooms, roomFor, findRoom, canvasCm } from '#shared/rooms'
 
 const { company, product } = store
 
@@ -42,6 +43,16 @@ const frameStyleId = ref<FrameStyle['id']>(frameStyles[0].id)
 const isFramed = computed(() => selection.frame === 'Framed')
 const chosenFrame = computed(() =>
   isFramed.value ? findFrameStyle(frameStyleId.value) : undefined,
+)
+
+const view = ref<'room' | 'close'>('room')
+const roomId = ref(roomFor(paintingId.value).id)
+watch(paintingId, (id) => {
+  roomId.value = roomFor(id).id
+})
+const room = computed(() => findRoom(roomId.value) ?? rooms[0]!)
+const canvas = computed(() =>
+  canvasCm(selection.size, chosenPainting.value?.orientation ?? 'landscape'),
 )
 
 /** Dimensions follow the painting's orientation: landscape reads width first. */
@@ -99,8 +110,17 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
 <template>
   <section class="mx-auto grid w-full max-w-5xl flex-1 items-start gap-10 px-6 pt-6 pb-12 md:grid-cols-2 md:gap-16 md:pt-12 md:pb-16">
     <div class="flex flex-col gap-3 md:sticky md:top-8">
+      <RoomScene
+        v-if="chosenPainting && view === 'room'"
+        :room="room"
+        :src="chosenPainting.image"
+        :alt="`${chosenPainting.imageAlt}, hung in a ${room.label.toLowerCase()}${chosenFrame ? ` in a ${chosenFrame.label.toLowerCase()} frame` : ''}`"
+        :width-cm="canvas.width"
+        :height-cm="canvas.height"
+        :frame="chosenFrame"
+      />
       <div
-        v-if="chosenPainting"
+        v-else-if="chosenPainting"
         class="flex items-center justify-center rounded-2xl border p-6 transition-colors duration-300 motion-reduce:transition-none md:p-8"
         :class="chosenFrame ? 'border-transparent bg-transparent' : 'border-stone-200 bg-sunk'"
       >
@@ -121,8 +141,46 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           class="aspect-[5/4] w-full origin-[55%_50%] scale-[1.12] object-cover"
         >
       </div>
+      <div v-if="chosenPainting" class="flex flex-col gap-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div role="group" aria-label="Preview" class="flex rounded-md border-[1.5px] border-stone-900 p-0.5 text-sm">
+            <button
+              type="button"
+              class="rounded-[3px] px-3 py-1.5 font-bold transition-colors duration-150"
+              :class="view === 'room' ? 'bg-accent text-cream' : 'text-stone-900'"
+              :aria-pressed="view === 'room'"
+              @click="view = 'room'"
+            >
+              On a wall
+            </button>
+            <button
+              type="button"
+              class="rounded-[3px] px-3 py-1.5 font-bold transition-colors duration-150"
+              :class="view === 'close' ? 'bg-accent text-cream' : 'text-stone-900'"
+              :aria-pressed="view === 'close'"
+              @click="view = 'close'"
+            >
+              Close up
+            </button>
+          </div>
+          <label v-if="view === 'room'" class="flex items-center gap-2 text-sm text-stone-900">
+            <span class="sr-only">Room</span>
+            <select
+              v-model="roomId"
+              class="rounded-md border-[1.5px] border-stone-900 bg-transparent px-3 py-1.5 text-sm font-bold text-stone-900"
+            >
+              <option v-for="r in rooms" :key="r.id" :value="r.id">
+                {{ r.label }}
+              </option>
+            </select>
+          </label>
+        </div>
+      </div>
       <p class="text-xs leading-relaxed text-stone-500">
-        <template v-if="chosenPainting">
+        <template v-if="chosenPainting && view === 'room'">
+          Shown roughly to scale at the size you pick{{ chosenFrame ? '' : ', stretched as it would be once framed locally' }}. Each reproduction is painted by hand, so small variations are part of the piece.
+        </template>
+        <template v-else-if="chosenPainting">
           Reference image of the original. Each reproduction is painted by hand, so small variations are part of the piece.
         </template>
         <template v-else>

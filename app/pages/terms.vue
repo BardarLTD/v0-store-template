@@ -83,9 +83,8 @@ useSeoMeta({
 
     <h2>Delivery</h2>
     <p>
-      Every painting is made to order, so each product page shows the date your order ships by, and
-      your order ships by that date. Once you approve your preview, we ship within 2 to 3 business
-      days. We ship within Australia only. Delivery times and costs are shown at checkout, and our
+      Every painting is made to order. We send you a photo preview within 2 weeks of your order, and
+      we ship within 3 business days of you approving it. We ship within Australia only. Delivery times and costs are shown at checkout, and our
       Pre-order &amp; Refund Policy has the details.
     </p>
     <p>
