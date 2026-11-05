@@ -11,6 +11,7 @@ import {
 } from '#shared/store'
 import { paintings, collection, findPainting } from '#shared/catalogue'
 import { rooms, roomFor, findRoom, canvasCm } from '#shared/rooms'
+import { lookbook } from '#shared/lookbook'
 
 const { company, product } = store
 
@@ -54,6 +55,14 @@ const room = computed(() => findRoom(roomId.value) ?? rooms[0]!)
 const canvas = computed(() =>
   canvasCm(selection.size, chosenPainting.value?.orientation ?? 'landscape'),
 )
+
+function chooseFromLookbook(id: string) {
+  selection.style = 'Curated'
+  paintingId.value = id
+  view.value = 'room'
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })
+}
 
 /** Dimensions follow the painting's orientation: landscape reads width first. */
 function sizeDetail(detail: string): string {
@@ -357,6 +366,18 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
         </p>
       </section>
     </div>
+  </section>
+
+  <section aria-labelledby="lookbook-heading" class="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 pb-12 md:pb-16">
+    <div class="flex flex-col gap-2">
+      <h2 id="lookbook-heading" class="text-3xl font-bold tracking-display text-balance text-stone-900">
+        At home
+      </h2>
+      <p class="max-w-xl text-base leading-relaxed text-pretty text-stone-900">
+        A good room comes together slowly. The rug, the lamp, the books you keep. A real painting is often the piece that finishes it. Tap a room to choose the painting in it.
+      </p>
+    </div>
+    <LookbookGrid :shots="lookbook" @choose="chooseFromLookbook" />
   </section>
 
   <section v-if="!isBespoke" id="range" aria-labelledby="range-heading" class="mx-auto flex w-full max-w-5xl scroll-mt-8 flex-col gap-6 px-6 pb-12 md:pb-16">
