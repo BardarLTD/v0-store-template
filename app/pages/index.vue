@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   store,
+  catalogue,
   formatPrice,
   defaultSelection,
   priceFor,
@@ -10,7 +11,6 @@ import {
   type Selection,
 } from '#shared/store'
 import { paintings, collection, findPainting } from '#shared/catalogue'
-import { rooms, roomFor, findRoom, canvasCm } from '#shared/rooms'
 import { lookbook } from '#shared/lookbook'
 
 const { company, product } = store
@@ -46,22 +46,27 @@ const chosenFrame = computed(() =>
   isFramed.value ? findFrameStyle(frameStyleId.value) : undefined,
 )
 
-const view = ref<'room' | 'close'>('room')
-const roomId = ref(roomFor(paintingId.value).id)
-watch(paintingId, (id) => {
-  roomId.value = roomFor(id).id
-})
-const room = computed(() => findRoom(roomId.value) ?? rooms[0]!)
-const canvas = computed(() =>
-  canvasCm(selection.size, chosenPainting.value?.orientation ?? 'landscape'),
-)
+const heroShot = lookbook.find((shot) => shot.id === 'fireplace-arc') ?? lookbook[0]
+const roomShots = lookbook.filter((shot) => shot !== heroShot)
+const heroPainting = heroShot ? findPainting(heroShot.paintingId) : undefined
+const fromPrice = formatPrice(Math.min(...catalogue.map((item) => item.price)))
+
+/**
+ * On desktop the preview sits beside the form, so the section top shows both.
+ * On mobile the preview stacks above, so jump past it to the chosen painting,
+ * with Size and Finish directly below.
+ */
+function scrollToOptions() {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const isWide = window.matchMedia('(min-width: 768px)').matches
+  const target = document.getElementById(isWide ? 'order' : 'painting-choice') ?? document.getElementById('order')
+  nextTick(() => target?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' }))
+}
 
 function chooseFromLookbook(id: string) {
   selection.style = 'Curated'
   paintingId.value = id
-  view.value = 'room'
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })
+  scrollToOptions()
 }
 
 /** Dimensions follow the painting's orientation: landscape reads width first. */
@@ -113,25 +118,37 @@ useHead({
 const tracking = useTracking()
 onMounted(() => tracking.viewProduct())
 
-const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md border-[1.5px] border-stone-900 px-4 py-3 text-sm transition-colors duration-150 has-checked:border-accent has-checked:bg-accent has-checked:text-cream has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent'
+const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md border-[1.5px] border-line px-4 py-3 hover:border-stone-900 text-sm transition-colors duration-150 has-checked:border-accent has-checked:bg-accent has-checked:text-cream has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent'
 </script>
 
 <template>
-  <section class="mx-auto grid w-full max-w-5xl flex-1 items-start gap-10 px-6 pt-6 pb-12 md:grid-cols-2 md:gap-16 md:pt-12 md:pb-16">
+  <HomeHero
+    v-if="heroShot && heroPainting"
+    :shot="heroShot"
+    :painting="heroPainting"
+    :from-price="fromPrice"
+    @choose="chooseFromLookbook"
+  />
+
+  <section id="lookbook" aria-labelledby="lookbook-heading" class="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pt-4! md:pt-8!">
+    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <h2 id="lookbook-heading" class="max-w-lg text-4xl font-bold tracking-display text-balance md:text-5xl">
+        Rooms worth coming home to.
+      </h2>
+      <p class="max-w-sm text-base leading-relaxed text-pretty">
+        The rug, the lamp, the books you keep. A real painting is often what pulls it together. Tap any room to choose the painting in it.
+      </p>
+    </div>
+    <LookbookGrid :shots="roomShots" @choose="chooseFromLookbook" />
+  </section>
+
+  <HomeSteps />
+
+  <section id="order" aria-labelledby="order-heading" class="mx-auto grid w-full max-w-5xl scroll-mt-4 items-start gap-10 px-6 md:grid-cols-2 md:gap-16">
     <div class="flex flex-col gap-3 md:sticky md:top-8">
-      <RoomScene
-        v-if="chosenPainting && view === 'room'"
-        :room="room"
-        :src="chosenPainting.image"
-        :alt="`${chosenPainting.imageAlt}, hung in a ${room.label.toLowerCase()}${chosenFrame ? ` in a ${chosenFrame.label.toLowerCase()} frame` : ''}`"
-        :width-cm="canvas.width"
-        :height-cm="canvas.height"
-        :frame="chosenFrame"
-      />
       <div
-        v-else-if="chosenPainting"
-        class="flex items-center justify-center rounded-2xl border p-6 transition-colors duration-300 motion-reduce:transition-none md:p-8"
-        :class="chosenFrame ? 'border-transparent bg-transparent' : 'border-stone-200 bg-sunk'"
+        v-if="chosenPainting"
+        class="flex items-center justify-center rounded-md bg-line/40 p-8 md:p-12"
       >
         <FramedPainting
           :key="chosenPainting.id"
@@ -140,56 +157,18 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           :frame="chosenFrame"
         />
       </div>
-      <div v-else class="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+      <div v-else class="overflow-hidden rounded-md">
         <img
           :src="product.image"
           :alt="product.imageAlt"
           width="1200"
           height="960"
-          fetchpriority="high"
+          loading="lazy"
           class="aspect-[5/4] w-full origin-[55%_50%] scale-[1.12] object-cover"
         >
       </div>
-      <div v-if="chosenPainting" class="flex flex-col gap-3">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div role="group" aria-label="Preview" class="flex rounded-md border-[1.5px] border-stone-900 p-0.5 text-sm">
-            <button
-              type="button"
-              class="rounded-[3px] px-3 py-1.5 font-bold transition-colors duration-150"
-              :class="view === 'room' ? 'bg-accent text-cream' : 'text-stone-900'"
-              :aria-pressed="view === 'room'"
-              @click="view = 'room'"
-            >
-              On a wall
-            </button>
-            <button
-              type="button"
-              class="rounded-[3px] px-3 py-1.5 font-bold transition-colors duration-150"
-              :class="view === 'close' ? 'bg-accent text-cream' : 'text-stone-900'"
-              :aria-pressed="view === 'close'"
-              @click="view = 'close'"
-            >
-              Close up
-            </button>
-          </div>
-          <label v-if="view === 'room'" class="flex items-center gap-2 text-sm text-stone-900">
-            <span class="sr-only">Room</span>
-            <select
-              v-model="roomId"
-              class="rounded-md border-[1.5px] border-stone-900 bg-transparent px-3 py-1.5 text-sm font-bold text-stone-900"
-            >
-              <option v-for="r in rooms" :key="r.id" :value="r.id">
-                {{ r.label }}
-              </option>
-            </select>
-          </label>
-        </div>
-      </div>
-      <p class="text-xs leading-relaxed text-stone-500">
-        <template v-if="chosenPainting && view === 'room'">
-          Shown roughly to scale at the size you pick{{ chosenFrame ? '' : ', stretched as it would be once framed locally' }}. Each reproduction is painted by hand, so small variations are part of the piece.
-        </template>
-        <template v-else-if="chosenPainting">
+      <p class="text-xs leading-relaxed">
+        <template v-if="chosenPainting">
           Reference image of the original. Each reproduction is painted by hand, so small variations are part of the piece.
         </template>
         <template v-else>
@@ -199,13 +178,13 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
     </div>
 
     <div class="flex flex-col gap-8">
-      <div class="flex flex-col gap-4">
-        <h1 class="text-5xl font-bold tracking-display text-balance text-stone-900 md:text-6xl">
-          {{ product.name }}
-        </h1>
-        <p class="max-w-md text-lg text-stone-600">
-          {{ product.tagline }}
+      <div class="flex flex-col gap-3">
+        <p class="text-xs font-bold uppercase tracking-label text-terracotta">
+          Order yours
         </p>
+        <h2 id="order-heading" class="text-4xl font-bold tracking-display text-balance md:text-5xl">
+          {{ product.name }}
+        </h2>
       </div>
 
       <fieldset class="flex flex-col gap-3">
@@ -225,7 +204,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           </label>
         </div>
 
-        <div v-if="chosenPainting" class="flex flex-col gap-2 pt-2" aria-live="polite">
+        <div v-if="chosenPainting" id="painting-choice" class="flex scroll-mt-6 flex-col gap-2 pt-2" aria-live="polite">
           <p class="text-base text-stone-900">
             <span class="font-serif text-xl font-bold italic">{{ chosenPainting.title }}</span>
             <span class="block text-sm">{{ chosenPainting.artist }}, {{ chosenPainting.year }} · {{ chosenPainting.style }}</span>
@@ -368,19 +347,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
     </div>
   </section>
 
-  <section aria-labelledby="lookbook-heading" class="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 pb-12 md:pb-16">
-    <div class="flex flex-col gap-2">
-      <h2 id="lookbook-heading" class="text-3xl font-bold tracking-display text-balance text-stone-900">
-        At home
-      </h2>
-      <p class="max-w-xl text-base leading-relaxed text-pretty text-stone-900">
-        A good room comes together slowly. The rug, the lamp, the books you keep. A real painting is often the piece that finishes it. Tap a room to choose the painting in it.
-      </p>
-    </div>
-    <LookbookGrid :shots="lookbook" @choose="chooseFromLookbook" />
-  </section>
-
-  <section v-if="!isBespoke" id="range" aria-labelledby="range-heading" class="mx-auto flex w-full max-w-5xl scroll-mt-8 flex-col gap-6 px-6 pb-12 md:pb-16">
+  <section v-if="!isBespoke" id="range" aria-labelledby="range-heading" class="mx-auto flex w-full max-w-5xl scroll-mt-8 flex-col gap-6 px-6 pt-0!">
     <div class="flex flex-col gap-2">
       <h2 id="range-heading" class="text-3xl font-bold tracking-display text-stone-900">
         {{ collection.name }}
@@ -389,7 +356,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
         {{ collection.intro }} Tap one to choose it.
       </p>
     </div>
-    <PaintingPicker v-model="paintingId" :paintings="paintings" />
+    <PaintingPicker v-model="paintingId" :paintings="paintings" @chosen="scrollToOptions" />
   </section>
 </template>
 

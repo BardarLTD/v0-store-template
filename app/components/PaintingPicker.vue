@@ -3,10 +3,11 @@ import type { Painting } from '#shared/catalogue'
 
 defineProps<{ paintings: Painting[] }>()
 const selected = defineModel<string>({ required: true })
+const emit = defineEmits<{ chosen: [id: string] }>()
 
 function choose(id: string) {
   selected.value = id
-  window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+  emit('chosen', id)
 }
 </script>
 

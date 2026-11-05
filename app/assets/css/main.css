@@ -32,6 +32,9 @@
   --color-card: #F5EEDC;
   --color-sunk: #F5EEDC;
 
+  /* A soft walnut tint for quiet dividers and unselected choices. */
+  --color-line: color-mix(in srgb, #4A3322 22%, #F5EEDC);
+
   /* Primary (indigo) and its states. */
   --color-accent: #2F3E7A;
   --color-accent-hover: color-mix(in srgb, #2F3E7A 88%, #4A3322);
