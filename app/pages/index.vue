@@ -51,11 +51,22 @@ const roomShots = lookbook.filter((shot) => shot !== heroShot)
 const heroPainting = heroShot ? findPainting(heroShot.paintingId) : undefined
 const fromPrice = formatPrice(Math.min(...catalogue.map((item) => item.price)))
 
+/**
+ * On desktop the preview sits beside the form, so the section top shows both.
+ * On mobile the preview stacks above, so jump past it to the chosen painting,
+ * with Size and Finish directly below.
+ */
+function scrollToOptions() {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const isWide = window.matchMedia('(min-width: 768px)').matches
+  const target = document.getElementById(isWide ? 'order' : 'painting-choice') ?? document.getElementById('order')
+  nextTick(() => target?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' }))
+}
+
 function chooseFromLookbook(id: string) {
   selection.style = 'Curated'
   paintingId.value = id
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  document.getElementById('order')?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' })
+  scrollToOptions()
 }
 
 /** Dimensions follow the painting's orientation: landscape reads width first. */
@@ -193,7 +204,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
           </label>
         </div>
 
-        <div v-if="chosenPainting" class="flex flex-col gap-2 pt-2" aria-live="polite">
+        <div v-if="chosenPainting" id="painting-choice" class="flex scroll-mt-6 flex-col gap-2 pt-2" aria-live="polite">
           <p class="text-base text-stone-900">
             <span class="font-serif text-xl font-bold italic">{{ chosenPainting.title }}</span>
             <span class="block text-sm">{{ chosenPainting.artist }}, {{ chosenPainting.year }} · {{ chosenPainting.style }}</span>
@@ -345,7 +356,7 @@ const choiceClass = 'relative flex cursor-pointer flex-col gap-0.5 rounded-md bo
         {{ collection.intro }} Tap one to choose it.
       </p>
     </div>
-    <PaintingPicker v-model="paintingId" :paintings="paintings" />
+    <PaintingPicker v-model="paintingId" :paintings="paintings" @chosen="scrollToOptions" />
   </section>
 </template>
 
