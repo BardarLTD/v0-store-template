@@ -51,10 +51,10 @@ const promises = [
       <img
         :src="shot.image"
         :alt="shot.alt"
-        width="1024"
-        height="1024"
+        :width="shot.width"
+        :height="shot.height"
         fetchpriority="high"
-        class="aspect-[4/5] max-h-[78svh] w-full rounded-md object-cover object-[50%_40%] md:aspect-[3/2] lg:aspect-[6/7]"
+        class="aspect-[4/5] max-h-[78svh] w-full rounded-md object-cover object-[50%_15%] md:aspect-[3/2] lg:aspect-[6/7]"
       >
       <figcaption class="flex justify-between gap-4 text-xs">
         <span>{{ shot.room }}</span>

@@ -46,7 +46,7 @@ const chosenFrame = computed(() =>
   isFramed.value ? findFrameStyle(frameStyleId.value) : undefined,
 )
 
-const heroShot = lookbook.find((shot) => shot.id === 'fireplace-arc') ?? lookbook[0]
+const heroShot = lookbook.find((shot) => shot.id === 'sitting-room-fireplace') ?? lookbook[0]
 const roomShots = lookbook.filter((shot) => shot !== heroShot)
 const heroPainting = heroShot ? findPainting(heroShot.paintingId) : undefined
 const fromPrice = formatPrice(Math.min(...catalogue.map((item) => item.price)))
