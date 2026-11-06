@@ -109,6 +109,31 @@ useHead({
           'price': product.price,
           'priceCurrency': product.currency,
           'availability': 'https://schema.org/PreOrder',
+          'shippingDetails': {
+            '@type': 'OfferShippingDetails',
+            'shippingRate': {
+              '@type': 'MonetaryAmount',
+              'value': 0,
+              'currency': product.currency,
+            },
+            'shippingDestination': {
+              '@type': 'DefinedRegion',
+              'addressCountry': product.countryCode,
+            },
+            // Made to order: preview within 2 weeks, then ships within 3 business days of approval.
+            'deliveryTime': {
+              '@type': 'ShippingDeliveryTime',
+              'handlingTime': { '@type': 'QuantitativeValue', 'minValue': 3, 'maxValue': 17, 'unitCode': 'DAY' },
+              'transitTime': { '@type': 'QuantitativeValue', 'minValue': 2, 'maxValue': 7, 'unitCode': 'DAY' },
+            },
+          },
+          // Change-of-mind returns aren't accepted; faulty items are covered under the Australian Consumer Law.
+          'hasMerchantReturnPolicy': {
+            '@type': 'MerchantReturnPolicy',
+            'applicableCountry': product.countryCode,
+            'returnPolicyCategory': 'https://schema.org/MerchantReturnNotPermitted',
+            'merchantReturnLink': 'https://cavalletto.com.au/returns',
+          },
         },
       }),
     },
