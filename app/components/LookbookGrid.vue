@@ -31,8 +31,8 @@ const items = computed(() =>
           <img
             :src="shot.image"
             :alt="shot.alt"
-            width="1024"
-            height="1024"
+            :width="shot.width"
+            :height="shot.height"
             loading="lazy"
             decoding="async"
             class="h-full w-full object-cover transition-transform duration-700 ease-key group-hover:scale-[1.03] motion-reduce:transition-none"
