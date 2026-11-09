@@ -18,6 +18,10 @@ export interface Painting {
   /** Path under `public/`, served from the site itself. */
   image: string
   imageAlt: string
+  /** Room mock-up under `public/rooms/`, named `<id>-room.webp`. */
+  roomImage: string
+  /** Optional close-up photo of a finished canvas. The gallery hides the view when unset. */
+  closeUp?: string
 }
 
 export const collection = {
@@ -45,6 +49,7 @@ export const paintings: Painting[] = [
     suits: 'A living room or music room that could take a little gold.',
     originalLocation: 'Neue Pinakothek, Munich',
     image: '/paintings/klimt-music.jpg',
+    roomImage: '/rooms/klimt-music-room.webp',
     imageAlt: 'Gustav Klimt, Music I: a woman in black playing a golden lyre',
   },
   {
@@ -59,6 +64,7 @@ export const paintings: Painting[] = [
     suits: 'A country kitchen or guest room, for a bit of summer all year.',
     originalLocation: 'Musée d\'Orsay, Paris',
     image: '/paintings/monet-poppy-field.jpg',
+    roomImage: '/rooms/monet-poppy-field-room.webp',
     imageAlt: 'Claude Monet, Poppy Field: red poppies on a summer slope',
   },
   {
@@ -73,6 +79,7 @@ export const paintings: Painting[] = [
     suits: 'A nursery or bedroom with soft blue or white walls.',
     originalLocation: 'Van Gogh Museum, Amsterdam',
     image: '/paintings/van-gogh-almond-blossom.jpg',
+    roomImage: '/rooms/van-gogh-almond-blossom-room.webp',
     imageAlt: 'Vincent van Gogh, Almond Blossom: white blossom on a turquoise sky',
   },
   {
@@ -87,6 +94,7 @@ export const paintings: Painting[] = [
     suits: 'A modern living room with plain walls that needs some warm colour.',
     originalLocation: 'Hilma af Klint Foundation, Stockholm',
     image: '/paintings/af-klint-ten-largest-no-7.jpg',
+    roomImage: '/rooms/af-klint-ten-largest-no-7-room.webp',
     imageAlt: 'Hilma af Klint, The Ten Largest No. 7: pink and yellow looping shapes',
   },
   {
@@ -101,6 +109,7 @@ export const paintings: Painting[] = [
     suits: 'A home office or child\'s room, if you like bright shapes.',
     originalLocation: 'Private collection',
     image: '/paintings/klee-castle-and-sun.jpg',
+    roomImage: '/rooms/klee-castle-and-sun-room.webp',
     imageAlt: 'Paul Klee, Castle and Sun: colored squares and triangles under a red sun',
   },
   {
@@ -115,6 +124,7 @@ export const paintings: Painting[] = [
     suits: 'A kitchen or playroom that could do with some fun.',
     originalLocation: 'Guggenheim Museum, New York',
     image: '/paintings/marc-yellow-cow.jpg',
+    roomImage: '/rooms/marc-yellow-cow-room.webp',
     imageAlt: 'Franz Marc, The Yellow Cow: a yellow cow leaping through blue and red hills',
   },
   {
@@ -129,6 +139,7 @@ export const paintings: Painting[] = [
     suits: 'Above a bed or long sideboard, where the row of trees follows the line of the furniture.',
     originalLocation: 'Belvedere, Vienna',
     image: '/paintings/schiele-four-trees.jpg',
+    roomImage: '/rooms/schiele-four-trees-room.webp',
     imageAlt: 'Egon Schiele, Four Trees: four autumn trees against a striped sunset',
   },
   {
@@ -143,6 +154,7 @@ export const paintings: Painting[] = [
     suits: 'A hallway or study that can handle hot pink and blue.',
     originalLocation: 'National Gallery of Art, Washington',
     image: '/paintings/derain-charing-cross-bridge.jpg',
+    roomImage: '/rooms/derain-charing-cross-bridge-room.webp',
     imageAlt: 'André Derain, Charing Cross Bridge: the Thames in pinks, yellows and blues',
   },
   {
@@ -157,6 +169,7 @@ export const paintings: Painting[] = [
     suits: 'A sunny hallway or a beach house living room.',
     originalLocation: 'Wallraf-Richartz-Museum, Cologne',
     image: '/paintings/signac-capo-di-noli.jpg',
+    roomImage: '/rooms/signac-capo-di-noli-room.webp',
     imageAlt: 'Paul Signac, Capo di Noli: pink cliffs above a turquoise sea',
   },
   {
@@ -171,6 +184,7 @@ export const paintings: Painting[] = [
     suits: 'A cottage kitchen or reading nook with soft, muted colours.',
     originalLocation: 'Musée d\'Orsay, Paris',
     image: '/paintings/sisley-flood-at-port-marly.jpg',
+    roomImage: '/rooms/sisley-flood-at-port-marly-room.webp',
     imageAlt: 'Alfred Sisley, Flood at Port-Marly: an inn in floodwater under a gray-blue sky',
   },
   {
@@ -185,6 +199,7 @@ export const paintings: Painting[] = [
     suits: 'A calm bedroom, or a living room with pale wood and linen.',
     originalLocation: 'National Gallery, London',
     image: '/paintings/gallen-kallela-lake-keitele.jpg',
+    roomImage: '/rooms/gallen-kallela-lake-keitele-room.webp',
     imageAlt: 'Akseli Gallen-Kallela, Lake Keitele: wind trails on a still blue lake',
   },
   {
@@ -199,6 +214,7 @@ export const paintings: Painting[] = [
     suits: 'A bedroom or reading corner, if you like things a little moody.',
     originalLocation: 'Alte Nationalgalerie, Berlin',
     image: '/paintings/friedrich-moonrise-over-the-sea.jpg',
+    roomImage: '/rooms/friedrich-moonrise-over-the-sea-room.webp',
     imageAlt: 'Caspar David Friedrich, Moonrise over the Sea: three figures on a rock at moonrise',
   },
   {
@@ -213,6 +229,7 @@ export const paintings: Painting[] = [
     suits: 'A study or bedroom with dark walls, where the teal and gold stand out.',
     originalLocation: 'Tate Britain, London',
     image: '/paintings/whistler-nocturne-blue-and-gold.jpg',
+    roomImage: '/rooms/whistler-nocturne-blue-and-gold-room.webp',
     imageAlt: 'James McNeill Whistler, Nocturne: Old Battersea Bridge at night in teal and gold',
   },
   {
@@ -227,6 +244,7 @@ export const paintings: Painting[] = [
     suits: 'A dining room, or a dark green wall that can take a big jungle scene.',
     originalLocation: 'Metropolitan Museum of Art, New York',
     image: '/paintings/rousseau-repast-of-the-lion.jpg',
+    roomImage: '/rooms/rousseau-repast-of-the-lion-room.webp',
     imageAlt: 'Henri Rousseau, The Repast of the Lion: a lion in a dense jungle',
   },
   {
@@ -241,6 +259,7 @@ export const paintings: Painting[] = [
     suits: 'A bedroom or dressing room, as a softer choice than a flower print.',
     originalLocation: 'Cleveland Museum of Art',
     image: '/paintings/redon-vase-of-flowers.jpg',
+    roomImage: '/rooms/redon-vase-of-flowers-room.webp',
     imageAlt: 'Odilon Redon, Vase of Flowers: a glowing bouquet on a warm ground',
   },
   {
@@ -255,6 +274,7 @@ export const paintings: Painting[] = [
     suits: 'A kitchen or hallway, for a quiet scene of everyday Dutch life.',
     originalLocation: 'Rijksmuseum, Amsterdam',
     image: '/paintings/vermeer-little-street.jpg',
+    roomImage: '/rooms/vermeer-little-street-room.webp',
     imageAlt: 'Johannes Vermeer, The Little Street: a brick house front in Delft',
   },
   {
@@ -269,6 +289,7 @@ export const paintings: Painting[] = [
     suits: 'A kitchen or breakfast nook, hung at eye level.',
     originalLocation: 'Mauritshuis, The Hague',
     image: '/paintings/coorte-wild-strawberries.jpg',
+    roomImage: '/rooms/coorte-wild-strawberries-room.webp',
     imageAlt: 'Adriaen Coorte, Still Life with Wild Strawberries: strawberries on a stone ledge',
   },
   {
@@ -283,6 +304,7 @@ export const paintings: Painting[] = [
     suits: 'A dining room or study with dark walls, where the flowers seem to glow.',
     originalLocation: 'Rijksmuseum, Amsterdam',
     image: '/paintings/ruysch-flowers-marble-tabletop.jpg',
+    roomImage: '/rooms/ruysch-flowers-marble-tabletop-room.webp',
     imageAlt: 'Rachel Ruysch, Still Life with Flowers on a Marble Tabletop: flowers against a dark ground',
   },
 ]

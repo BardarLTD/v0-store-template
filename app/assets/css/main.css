@@ -34,6 +34,8 @@
 
   /* A soft walnut tint for quiet dividers and unselected choices. */
   --color-line: color-mix(in srgb, #4A3322 16%, #FBFAF7);
+  /* The sticky buy bar's top rule. */
+  --color-rule: #DFDAD5;
 
   /* Primary (indigo) and its states. */
   --color-accent: #2F3E7A;
@@ -116,6 +118,20 @@
 *::before,
 *::after {
   box-shadow: none !important;
+}
+
+/*
+ * The two shadows allowed past the rule above: the soft lift under a painting
+ * shown on the sunk well, and the sticky buy bar. Class specificity beats `*`.
+ */
+.soft-shadow {
+  box-shadow:
+    0 1px 2px rgb(74 51 34 / 0.08),
+    0 10px 24px -6px rgb(74 51 34 / 0.22) !important;
+}
+
+.bar-shadow {
+  box-shadow: 0 -4px 16px rgb(74 51 34 / 0.08) !important;
 }
 
 /* Thin walnut borders on cards and the photo's frame. */

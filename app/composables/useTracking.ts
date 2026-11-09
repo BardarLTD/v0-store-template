@@ -41,10 +41,22 @@ function send(meta?: (fbq: Fbq) => void, google?: (gtag: Gtag) => void) {
   }
 }
 
-function product(value: number, currency: string) {
+/**
+ * A specific painting, as sent from its own page (/paintings/[id]): its id
+ * replaces the generic product id and `value` is the price currently selected.
+ */
+export interface TrackedItem {
+  id: string
+  name: string
+  value: number
+}
+
+function product(value: number, currency: string, item?: TrackedItem) {
+  const id = item?.id ?? PRODUCT_ID
+  const name = item?.name ?? store.product.name
   return {
-    meta: { content_ids: [PRODUCT_ID], content_name: store.product.name, content_type: 'product', value, currency },
-    google: { currency, value, items: [{ item_id: PRODUCT_ID, item_name: store.product.name, price: value, quantity: 1 }] },
+    meta: { content_ids: [id], content_name: name, content_type: 'product', value, currency },
+    google: { currency, value, items: [{ item_id: id, item_name: name, price: value, quantity: 1 }] },
   }
 }
 
@@ -52,13 +64,13 @@ export function useTracking() {
   const { googleAdsConversion } = trackingIds()
 
   return {
-    viewProduct() {
-      const { meta, google } = product(store.product.price, store.product.currency)
+    viewProduct(item?: TrackedItem) {
+      const { meta, google } = product(item?.value ?? store.product.price, store.product.currency, item)
       send(fbq => fbq('track', 'ViewContent', meta), gtag => gtag('event', 'view_item', google))
     },
 
-    beginCheckout() {
-      const { meta, google } = product(store.product.price, store.product.currency)
+    beginCheckout(item?: TrackedItem) {
+      const { meta, google } = product(item?.value ?? store.product.price, store.product.currency, item)
       send(
         fbq => fbq('track', 'InitiateCheckout', { ...meta, num_items: 1 }),
         gtag => gtag('event', 'begin_checkout', google),

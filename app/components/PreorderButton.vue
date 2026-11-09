@@ -10,73 +10,16 @@ const props = defineProps<{
   disabled?: boolean
 }>()
 
-/**
- * The one action on the page. It asks the server for a PaymentIntent, then
- * sends the buyer to Airwallex's hosted checkout, which collects their card,
- * name, email and delivery address and returns them to /thank-you.
- */
+/** The one action on the page. See `useCheckout` for the checkout flow. */
+const { pending, error, start } = useCheckout()
 
-interface Preorder {
-  intentId: string
-  clientSecret: string
-  currency: string
-  countryCode: string
-  logoUrl: string
-}
-
-const { public: { airwallexEnv } } = useRuntimeConfig()
-const tracking = useTracking()
-
-const pending = ref(false)
-const error = ref('')
-
-/** The site's accent as a hex colour, which is all Airwallex accepts. */
-function accentColour(): string {
-  const value = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim()
-  return /^#[0-9a-f]{6}$/i.test(value) ? value : '#42A5F5'
-}
-
-async function preorder() {
-  pending.value = true
-  error.value = ''
-  tracking.beginCheckout()
-  try {
-    const order = await $fetch<Preorder>('/api/preorder', {
-      method: 'POST',
-      body: {
-        size: props.selection.size,
-        style: props.selection.style,
-        frame: props.selection.frame,
-        ...(props.frameStyleId ? { frameStyle: props.frameStyleId } : {}),
-        ...(props.paintingId ? { painting: props.paintingId } : {}),
-        ...(props.brief !== undefined ? { brief: props.brief } : {}),
-      },
-    })
-    const { init } = await import('@airwallex/components-sdk')
-    const { payments } = await init({
-      env: airwallexEnv === 'prod' ? 'prod' : 'demo',
-      enabledElements: ['payments'],
-    })
-    if (!payments) throw new Error('Airwallex payments element failed to load')
-    const origin = window.location.origin
-    payments.redirectToCheckout({
-      intent_id: order.intentId,
-      client_secret: order.clientSecret,
-      currency: order.currency,
-      country_code: order.countryCode,
-      successUrl: `${origin}/thank-you?id=${order.intentId}`,
-      logoUrl: order.logoUrl,
-      requiredBillingContactFields: ['name', 'email', 'address'],
-      // The checkout's buttons match the site's accent (app/assets/css/main.css).
-      appearance: { variables: { colorBrand: accentColour() } },
-    })
-  }
-  catch (err) {
-    console.error('[preorder] checkout failed to open', err)
-    const message = (err as { data?: { message?: string } }).data?.message
-    error.value = message ?? 'Checkout didn’t open. Please try again.'
-    pending.value = false
-  }
+function preorder() {
+  start({
+    selection: props.selection,
+    paintingId: props.paintingId,
+    frameStyleId: props.frameStyleId,
+    brief: props.brief,
+  })
 }
 </script>
 
