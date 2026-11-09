@@ -7,8 +7,8 @@ const PROMISES = [
   },
   {
     icon: 'truck',
-    title: 'At your door in about 3 weeks',
-    text: 'We ship within 3 business days of your approval. Delivery is free.',
+    title: 'Shipped straight to your door',
+    text: 'Once you approve the preview, we ship it straight to your door, where it should arrive within 1–2 weeks. Delivery is free.',
   },
   {
     icon: 'brush',

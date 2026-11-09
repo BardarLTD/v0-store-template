@@ -9,10 +9,14 @@ import {
   curatedSelection,
   finishOptions,
   formatWholePrice,
+  frameChoices,
+  frameLabel,
   parseFinish,
+  parseFrame,
   parseSize,
   sizeOptions,
   type FinishKey,
+  type FrameKey,
   type SizeKey,
 } from '#shared/painting-options'
 import { store } from '#shared/store'
@@ -34,6 +38,7 @@ const painting = computed(() => findPainting(route.params.id) as Painting)
 
 const size = ref<SizeKey>(parseSize(route.query.size))
 const finish = ref<FinishKey>(parseFinish(route.query.finish))
+const frameStyle = ref<FrameKey>(parseFrame(route.query.frame))
 const price = computed(() => curatedPrice(size.value, finish.value))
 
 const sizeChoices = computed(() => sizeOptions.map(option => ({
@@ -47,7 +52,9 @@ const finishChoices = computed(() => finishOptions.map(option => ({
 
 const summary = computed(() => {
   const sizeLabel = sizeOptions.find(option => option.key === size.value)!.label
-  const finishLabel = finishOptions.find(option => option.key === finish.value)!.label.toLowerCase()
+  const finishLabel = finish.value === 'framed'
+    ? `${frameLabel(frameStyle.value).toLowerCase()} frame`
+    : finishOptions.find(option => option.key === finish.value)!.label.toLowerCase()
   return `${sizeLabel}, ${finishLabel} · ${formatWholePrice(price.value)}`
 })
 
@@ -68,6 +75,7 @@ function buy() {
   start({
     selection: curatedSelection(size.value, finish.value),
     paintingId: painting.value.id,
+    frameStyleId: finish.value === 'framed' ? frameStyle.value : undefined,
     trackedItem: trackedItem.value,
   })
 }
@@ -184,6 +192,7 @@ useHead({
         </OptionGroup>
 
         <OptionGroup v-model="finish" legend="Finish" name="finish" :options="finishChoices" />
+        <OptionGroup v-if="finish === 'framed'" v-model="frameStyle" legend="Frame" name="frame" :options="frameChoices" />
 
         <div ref="buyButton" class="flex flex-col gap-3">
           <button
