@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { faqs } from '#shared/faqs'
+import { faqs as allFaqs } from '#shared/faqs'
+
+const homeQuestions = [
+  'Is this a print?',
+  'What if I don’t like the preview?',
+  'Rolled or framed: which should I choose?',
+  'How long does it take?',
+]
+const faqs = homeQuestions.flatMap(question => allFaqs.filter(item => item.question === question))
 
 useHead({
   script: [
@@ -45,6 +53,9 @@ useHead({
           {{ item.answer }}
         </p>
       </details>
+      <NuxtLink to="/faq" class="mt-5 self-start font-bold text-accent underline underline-offset-2">
+        All questions
+      </NuxtLink>
     </div>
   </section>
 </template>

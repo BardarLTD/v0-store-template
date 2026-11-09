@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Painting } from '#shared/catalogue'
 import { curatedLowPrice, formatWholePrice } from '#shared/painting-options'
+import { localSrcset } from '#shared/srcset'
 
 defineProps<{ painting: Painting }>()
 </script>
@@ -10,10 +11,13 @@ defineProps<{ painting: Painting }>()
     <span class="flex aspect-square items-center justify-center rounded-md bg-sunk p-5">
       <img
         :src="painting.image"
+        :srcset="localSrcset(painting.image, 960)"
+        sizes="(min-width: 1200px) 340px, (min-width: 768px) 30vw, 45vw"
         :alt="painting.imageAlt"
         width="600"
         height="600"
         loading="lazy"
+        decoding="async"
         class="soft-shadow max-h-full max-w-full object-contain"
       >
     </span>

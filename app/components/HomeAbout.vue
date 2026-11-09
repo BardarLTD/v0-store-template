@@ -1,18 +1,25 @@
 <script setup lang="ts">
 import { store } from '#shared/store'
+import { cloudinarySrcset } from '#shared/srcset'
 
 const { company, product } = store
+
+// Path under public/ for Tom's round portrait. Left empty until the photo arrives.
+const tomPhoto = ''
 </script>
 
 <template>
   <section aria-labelledby="about-heading" class="mx-auto grid w-full max-w-5xl items-center gap-10 px-6 md:grid-cols-12 md:gap-16">
-    <figure class="flex flex-col gap-2 md:col-span-5">
+    <figure class="hidden flex-col gap-2 md:col-span-5 md:flex">
       <img
         :src="product.image"
+        :srcset="cloudinarySrcset(product.image) || undefined"
+        sizes="(min-width: 1200px) 460px, 40vw"
         :alt="product.imageAlt"
         width="1200"
         height="960"
         loading="lazy"
+        decoding="async"
         class="aspect-[4/5] w-full rounded-md object-cover"
       >
       <figcaption class="text-xs leading-relaxed">
@@ -32,6 +39,18 @@ const { company, product } = store
           The painting is done by a studio of trained artists in China that I work with directly. Copying classic paintings in oil is their speciality, and they&apos;ve been doing it for years. Working with them is how I can sell a hand-painted oil from A$300. I check every canvas against the original before you see your preview.
         </p>
       </div>
+      <p class="flex items-center gap-3 text-sm font-bold">
+        <img
+          v-if="tomPhoto"
+          :src="tomPhoto"
+          alt="Tom, who runs Cavalletto"
+          width="48"
+          height="48"
+          loading="lazy"
+          class="size-12 rounded-full object-cover"
+        >
+        Tom, Darlinghurst, Sydney
+      </p>
       <ul class="flex flex-col gap-2 border-t-[1.5px] border-line pt-5 text-sm [&_.font-bold]:mr-1">
         <li>
           <span class="font-bold">Email:</span>
