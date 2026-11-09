@@ -38,6 +38,14 @@ export function curatedPrice(size: SizeKey, finish: FinishKey): number {
   return priceFor(curatedSelection(size, finish)) ?? store.product.price
 }
 
+export function bespokeSelection(size: SizeKey, finish: FinishKey): Selection {
+  return { ...curatedSelection(size, finish), style: 'Bespoke' }
+}
+
+export function bespokePrice(size: SizeKey, finish: FinishKey): number {
+  return priceFor(bespokeSelection(size, finish)) ?? store.product.price
+}
+
 const curatedPrices = catalogue.filter(item => item.style === 'Curated').map(item => item.price)
 export const curatedLowPrice = Math.min(...curatedPrices)
 export const curatedHighPrice = Math.max(...curatedPrices)

@@ -18,7 +18,7 @@ defineProps<{ painting: Painting }>()
         height="600"
         loading="lazy"
         decoding="async"
-        class="soft-shadow max-h-full max-w-full object-contain"
+        class="card-shadow max-h-full max-w-full object-contain"
       >
     </span>
     <span class="flex flex-col gap-0.5">
@@ -28,3 +28,11 @@ defineProps<{ painting: Painting }>()
     </span>
   </NuxtLink>
 </template>
+
+<style scoped>
+.card-shadow {
+  box-shadow:
+    0 1px 2px rgb(74 51 34 / 0.22),
+    0 8px 18px rgb(74 51 34 / 0.14);
+}
+</style>

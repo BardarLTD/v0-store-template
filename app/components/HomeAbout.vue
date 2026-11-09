@@ -4,8 +4,7 @@ import { cloudinarySrcset } from '#shared/srcset'
 
 const { company, product } = store
 
-// Path under public/ for Tom's round portrait. Left empty until the photo arrives.
-const tomPhoto = ''
+const tomPhoto = '/images/tom.webp'
 </script>
 
 <template>

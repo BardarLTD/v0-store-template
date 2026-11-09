@@ -32,7 +32,7 @@ useSeoMeta({
       </p>
       <p class="max-w-xl text-base leading-relaxed text-stone-900">
         Looking for something else?
-        <NuxtLink to="/?style=bespoke" class="font-bold text-accent underline underline-offset-2">Order a bespoke painting</NuxtLink>
+        <NuxtLink to="/bespoke" class="font-bold text-accent underline underline-offset-2">Order a bespoke painting</NuxtLink>
         of anything you like.
       </p>
     </div>
@@ -49,15 +49,9 @@ useSeoMeta({
       </label>
     </fieldset>
 
-    <ul class="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+    <ul class="grid grid-cols-2 gap-x-4 gap-y-8 md:gap-x-6 md:gap-y-12 lg:grid-cols-3" aria-live="polite">
       <li v-for="painting in shown" :key="painting.id">
-        <NuxtLink
-          :to="`/paintings/${painting.id}`"
-          class="flex flex-col gap-3 rounded-md"
-        >
-          <PaintingFigure :painting="painting" />
-          <span class="text-sm font-bold text-accent underline underline-offset-2">Choose this painting</span>
-        </NuxtLink>
+        <PaintingCard :painting="painting" />
       </li>
     </ul>
   </section>

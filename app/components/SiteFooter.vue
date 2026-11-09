@@ -2,7 +2,9 @@
 import { store } from '#shared/store'
 
 const LINKS = [
+  { to: '/bespoke', label: 'Bespoke' },
   { to: '/how-it-works', label: 'How it works' },
+  { to: '/faq', label: 'Questions' },
   { to: '/terms', label: 'Terms' },
   { to: '/privacy', label: 'Privacy' },
   { to: '/returns', label: 'Returns' },
