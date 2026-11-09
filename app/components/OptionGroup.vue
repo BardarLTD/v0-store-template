@@ -17,7 +17,7 @@ const model = defineModel<K>({ required: true })
       <label
         v-for="option in options"
         :key="option.key"
-        class="flex cursor-pointer flex-col gap-1 rounded-md border-2 border-line p-3 transition-colors duration-150 has-checked:border-accent has-checked:bg-card has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent"
+        class="flex cursor-pointer flex-col gap-1 rounded-md last:odd:col-span-2 border-2 border-line p-3 transition-colors duration-150 has-checked:border-accent has-checked:bg-card has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent"
       >
         <input v-model="model" type="radio" :name="name" :value="option.key" class="sr-only">
         <span class="flex items-baseline justify-between gap-2">
