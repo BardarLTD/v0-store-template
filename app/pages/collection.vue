@@ -52,7 +52,7 @@ useSeoMeta({
     <ul class="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
       <li v-for="painting in shown" :key="painting.id">
         <NuxtLink
-          :to="{ path: '/', query: { painting: painting.id } }"
+          :to="`/paintings/${painting.id}`"
           class="flex flex-col gap-3 rounded-md"
         >
           <PaintingFigure :painting="painting" />
