@@ -9,7 +9,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const intent = await retrievePaymentIntent(event, id)
+  const metadata = intent.metadata ?? {}
   return {
+    // The ad pixels' content id: the painting bought, or "bespoke" (matching ViewContent and InitiateCheckout).
+    itemId: metadata.artwork_id || (metadata.style && metadata.style !== 'Curated' ? 'bespoke' : ''),
     paid: intent.status === 'SUCCEEDED',
     status: intent.status,
     amount: intent.amount,

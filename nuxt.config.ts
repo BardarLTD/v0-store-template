@@ -78,7 +78,8 @@ export default defineNuxtConfig({
     public: {
       airwallexEnv: 'demo',
       siteUrl: '',
-      metaPixelId: '',
+      // Cavalletto's pixel. It only loads on cavalletto.com.au (app/plugins/tracking.ts).
+      metaPixelId: '1468386975385734',
       googleTagId: '',
       googleAdsConversion: '',
     },
