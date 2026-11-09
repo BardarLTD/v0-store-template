@@ -1,5 +1,6 @@
 import pagePaths from '#sitemap-paths'
 import { posts } from '#shared/posts'
+import { paintings } from '#shared/catalogue'
 
 const ORIGIN = 'https://cavalletto.com.au'
 const EXCLUDED = new Set(['/thank-you'])
@@ -7,6 +8,9 @@ const EXCLUDED = new Set(['/thank-you'])
 const entries = new Map<string, string | undefined>()
 for (const path of pagePaths) {
   if (!EXCLUDED.has(path)) entries.set(path, undefined)
+}
+for (const painting of paintings) {
+  entries.set(`/paintings/${painting.id}`, undefined)
 }
 entries.set('/blog', undefined)
 for (const post of posts) {

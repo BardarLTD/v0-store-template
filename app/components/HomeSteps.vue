@@ -32,6 +32,9 @@ const steps = [
           </p>
         </li>
       </ol>
+      <NuxtLink to="/how-it-works" class="self-start font-bold text-cream underline underline-offset-2">
+        How it works, step by step
+      </NuxtLink>
     </div>
   </section>
 </template>
