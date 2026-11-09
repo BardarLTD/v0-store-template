@@ -4,10 +4,14 @@ import {
   bespokeSelection,
   finishOptions,
   formatWholePrice,
+  frameChoices,
+  frameLabel,
   parseFinish,
+  parseFrame,
   parseSize,
   sizeOptions,
   type FinishKey,
+  type FrameKey,
   type SizeKey,
 } from '#shared/painting-options'
 import { store } from '#shared/store'
@@ -20,6 +24,7 @@ type BespokeSizeKey = SizeKey | 'custom'
 const route = useRoute()
 const size = ref<BespokeSizeKey>(route.query.size === 'custom' ? 'custom' : parseSize(route.query.size))
 const finish = ref<FinishKey>(parseFinish(route.query.finish))
+const frameStyle = ref<FrameKey>(parseFrame(route.query.frame))
 const isCustom = computed(() => size.value === 'custom')
 const standardSize = computed<SizeKey>(() => (size.value === 'custom' ? 'medium' : size.value))
 const price = computed(() => bespokePrice(standardSize.value, finish.value))
@@ -36,7 +41,9 @@ const finishChoices = computed(() => finishOptions.map(option => ({
   price: isCustom.value ? 'Quote' : formatWholePrice(bespokePrice(standardSize.value, option.key)),
 })))
 
-const finishLabel = computed(() => finishOptions.find(option => option.key === finish.value)!.label)
+const finishLabel = computed(() => finish.value === 'framed'
+  ? `Framed (${frameLabel(frameStyle.value)})`
+  : finishOptions.find(option => option.key === finish.value)!.label)
 const quoteHref = computed(() => {
   const subject = 'Custom size quote'
   const body = `Hi,\n\nI'd like a quote for a bespoke painting in a custom size.\n\nSize (width × height): \nFinish: ${finishLabel.value}\n\nI've attached an image of the painting.\n\nThanks`
@@ -49,7 +56,11 @@ const { pending, error, start } = useCheckout()
 
 function buy() {
   if (size.value === 'custom') return
-  start({ selection: bespokeSelection(size.value, finish.value), trackedItem: trackedItem.value })
+  start({
+    selection: bespokeSelection(size.value, finish.value),
+    frameStyleId: finish.value === 'framed' ? frameStyle.value : undefined,
+    trackedItem: trackedItem.value,
+  })
 }
 
 onMounted(() => tracking.viewProduct(trackedItem.value))
@@ -98,6 +109,7 @@ useSeoMeta({
 
         <OptionGroup v-model="size" legend="Size" name="size" :options="sizeChoices" />
         <OptionGroup v-model="finish" legend="Finish" name="finish" :options="finishChoices" />
+        <OptionGroup v-if="finish === 'framed'" v-model="frameStyle" legend="Frame" name="frame" :options="frameChoices" />
 
         <div v-if="isCustom" class="flex flex-col gap-3">
           <a

@@ -1,4 +1,4 @@
-import { catalogue, priceFor, store, type Selection } from './store'
+import { catalogue, frameStyles, priceFor, store, type Selection } from './store'
 
 /**
  * The choices on a painting page, mapped onto the catalogue in `store.ts`, which
@@ -14,6 +14,23 @@ export const finishOptions = [
   { key: 'rolled', value: 'Unframed', label: 'Rolled', detail: 'Posted in a tube, for your framer' },
   { key: 'framed', value: 'Framed', label: 'Framed', detail: 'Stretched and framed, ready to hang' },
 ] as const
+
+export const frameChoices = frameStyles.map(style => ({
+  key: style.id,
+  label: style.label,
+  detail: style.detail,
+  price: 'Included',
+}))
+
+export type FrameKey = (typeof frameStyles)[number]['id']
+
+export function parseFrame(value: unknown): FrameKey {
+  return frameStyles.find(style => style.id === value)?.id ?? frameStyles[0].id
+}
+
+export function frameLabel(key: FrameKey): string {
+  return frameStyles.find(style => style.id === key)!.label
+}
 
 export type SizeKey = (typeof sizeOptions)[number]['key']
 export type FinishKey = (typeof finishOptions)[number]['key']
