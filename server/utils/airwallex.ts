@@ -17,6 +17,7 @@ export interface PaymentIntent {
   amount: number
   currency: string
   merchant_order_id: string
+  metadata?: Record<string, string>
 }
 
 interface Credentials {

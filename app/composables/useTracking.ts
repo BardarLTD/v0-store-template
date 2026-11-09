@@ -1,3 +1,4 @@
+import { findPainting } from '#shared/catalogue'
 import { store } from '#shared/store'
 
 /**
@@ -78,16 +79,17 @@ export function useTracking() {
     },
 
     /** `id` is the Airwallex PaymentIntent: the order's id in every report. */
-    purchase(order: { id: string, amount: number, currency: string }) {
-      // A reload of /thank-you must not count the sale twice.
+    purchase(order: { id: string, amount: number, currency: string, itemId?: string }) {
+      // A reload or revisit of /thank-you must not count the sale twice.
       const key = `tracked-purchase:${order.id}`
       try {
-        if (localStorage.getItem(key)) return
-        localStorage.setItem(key, '1')
+        if (sessionStorage.getItem(key)) return
+        sessionStorage.setItem(key, '1')
       }
       catch { /* Storage blocked: send anyway; the ids below dedupe it. */ }
 
-      const { meta, google } = product(order.amount, order.currency)
+      const item = order.itemId ? { id: order.itemId, name: findPainting(order.itemId)?.title ?? 'Bespoke painting', value: order.amount } : undefined
+      const { meta, google } = product(order.amount, order.currency, item)
       send(
         // eventID lets Meta dedupe against a server-side (Conversions API) Purchase with the same id.
         fbq => fbq('track', 'Purchase', { ...meta, num_items: 1 }, { eventID: order.id }),

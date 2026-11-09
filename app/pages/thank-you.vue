@@ -13,7 +13,7 @@ const { data, error } = await useFetch(`/api/preorder/${id}`, { immediate: id.st
 // The ad pixels' Purchase: only once Airwallex has confirmed the payment.
 const tracking = useTracking()
 onMounted(() => {
-  if (data.value?.paid) tracking.purchase({ id, amount: data.value.amount, currency: data.value.currency })
+  if (data.value?.paid) tracking.purchase({ id, amount: data.value.amount, currency: data.value.currency, itemId: data.value.itemId })
 })
 
 // Only buyers land here: keep it out of search results.
